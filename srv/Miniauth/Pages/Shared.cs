@@ -64,18 +64,23 @@ public static class Shared
                     background: light-dark(#FFFFFF, #121212);
                 }
 
-                button {
+                button, a.button {
                     border: 1px solid light-dark(#000000, #FFFFFF);
                     border-radius: 0.25rem;
 
                     height: 2rem;
                     align-self: stretch;
 
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
                     color: light-dark(#000000, #FFFFFF);
                     background: light-dark(#FFFFFF, #121212);
 
                     font-weight: bold;
                     text-transform: uppercase;
+                    text-decoration: none;
 
                     &:hover {
                         background: light-dark(#F8F8F8, #1A1A1A);

@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.WebUtilities;
 using Miniauth.Authentication;
 using Miniauth.Pages;
 using Miniauth.Session;
@@ -30,11 +32,23 @@ public static class Login
         var authenticationProvider = context.RequestServices.GetRequiredService<IAuthenticationProvider>();
         if (!authenticationProvider.Authenticate(username, password, out var session))
         {
-            context.Response.Redirect("/login?error=true");
+            var redirectTarget = QueryHelpers.AddQueryString(context.Request.GetEncodedPathAndQuery(), "error", "true");
+            context.Response.Redirect(redirectTarget);
+
             return;
         }
 
         context.WriteSession(session);
+
+        var originalMethod = context.Request.Query["method"].ToString();
+        var originalUri = Uri.UnescapeDataString(context.Request.Query["uri"].ToString());
+
+        if (originalMethod.Equals("get", StringComparison.OrdinalIgnoreCase))
+        {
+            context.Response.Redirect(originalUri);
+            return;
+        }
+
         context.Response.Redirect("/");
     }
 }

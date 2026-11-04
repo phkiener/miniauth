@@ -1,3 +1,4 @@
+using Miniauth.Pages;
 using Miniauth.Session;
 
 namespace Miniauth.Endpoints;
@@ -11,8 +12,10 @@ public static class Challenge
 
         if (session is null)
         {
-            // TODO: Store X-Forwarded-Method & X-Forwarded-Uri
-            context.Response.Redirect("/login");
+            var originalMethod = context.Request.Headers["X-Forwarded-Method"];
+            var originalUri = context.Request.Headers["X-Forwarded-Uri"];
+
+            context.Response.Redirect($"/login?method={originalMethod}&uri={originalUri}");
             return Task.CompletedTask;
         }
 
@@ -29,6 +32,8 @@ public static class Challenge
         }
 
         context.Response.StatusCode = StatusCodes.Status403Forbidden;
-        return Task.CompletedTask;
+
+        var accessDeniedPage = AccessDeniedPage.Render();
+        return context.Response.WriteAsync(accessDeniedPage);
     }
 }

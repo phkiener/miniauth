@@ -45,7 +45,7 @@ public static class InspectPage
         <section class="card">
             <header><h2>Details</h2></header>
             {0}
-        </form>
+        </section>
         """;
 
     [StringSyntax("html")]
@@ -54,9 +54,7 @@ public static class InspectPage
         <span>Logged in as {0}</span>
         <span>Scopes: {1}</span>
 
-        <form method="get" action="/logout" style="display: contents">
-            <button type="submit">Logout</button>
-        </form>
+        <a href="/logout" class="button">Logout</a>
         """;
 
     [StringSyntax("html")]
@@ -64,9 +62,7 @@ public static class InspectPage
         """
         <span>You are not logged in.</span>
 
-        <form method="get" action="/login" style="display: contents">
-            <button type="submit">Login</button>
-        </form>
+        <a href="/login" class="button">Login</a>
         """;
 
 
