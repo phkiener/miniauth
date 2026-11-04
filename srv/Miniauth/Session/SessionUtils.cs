@@ -11,6 +11,7 @@ public static class SessionUtils
     {
         HttpOnly = true,
         Secure = true,
+        SameSite = SameSiteMode.Strict,
         MaxAge = TimeSpan.FromDays(7)
     };
 
@@ -40,6 +41,11 @@ public static class SessionUtils
     {
         var protectedSession = Protect(session, context.RequestServices);
         context.Response.Cookies.Append(CookieName, protectedSession, CookieOptions);
+    }
+
+    public static void ClearSession(this HttpContext context)
+    {
+        context.Response.Cookies.Delete(CookieName);
     }
 
     private static UserSession? Unprotect(string cookie, IServiceProvider serviceProvider)

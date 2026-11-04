@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Http.HttpResults;
+using Miniauth.Authentication;
 using Miniauth.Pages;
 using Miniauth.Session;
 
@@ -15,19 +15,26 @@ public static class Login
             return Task.CompletedTask;
         }
 
-        var result = new RazorComponentResult<LoginPage>();
-        return result.ExecuteAsync(context);
+        var wrongCredentials = context.Request.Query.ContainsKey("error");
+        var loginPage = LoginPage.Render(showCredentialError: wrongCredentials);
+
+        return context.Response.WriteAsync(loginPage);
     }
 
     public static async Task HandlePostAsync(HttpContext context)
     {
         var form = await context.Request.ReadFormAsync();
-        var username = form["username"];
-        var password = form["password"];
+        var username = form["username"].ToString();
+        var password = form["password"].ToString();
 
-        // TODO: login
+        var authenticationProvider = context.RequestServices.GetRequiredService<IAuthenticationProvider>();
+        if (!authenticationProvider.Authenticate(username, password, out var session))
+        {
+            context.Response.Redirect("/login?error=true");
+            return;
+        }
 
-        var session = new UserSession(username!, ["admin"]);
         context.WriteSession(session);
+        context.Response.Redirect("/");
     }
 }
