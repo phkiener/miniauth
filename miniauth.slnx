@@ -10,5 +10,5 @@
     <File Path="LICENSE.txt" />
     <File Path="NuGet.config" />
   </Folder>
-  <Project Path="srv/Miniauth/Miniauth.csproj" />
+  <Project Path="src/Miniauth/Miniauth.csproj" />
 </Solution>
