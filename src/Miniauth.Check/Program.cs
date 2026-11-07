@@ -1,14 +1,15 @@
 ﻿using Miniauth.Check;
 using Miniauth.Check.Files;
 
-if (args is not [var username, var password])
+if (args is not [var username])
 {
-    Console.Error.WriteLine("usage: miniauth-check $user $password");
+    Console.Error.WriteLine("usage: miniauth-check $user");
     return 1;
 }
 
+var password = Console.ReadLine();
 var shadowEntry = ShadowFile.Read().FirstOrDefault(shadow => shadow.UserName == username);
-if (!PasswordCheck.CheckPassword(shadowEntry?.PasswordHash, password))
+if (!PasswordCheck.CheckPassword(shadowEntry?.PasswordHash, password ?? ""))
 {
     Console.Error.WriteLine("Invalid credentials");
     return 1;
