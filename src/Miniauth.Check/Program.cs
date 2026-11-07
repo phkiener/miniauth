@@ -7,18 +7,26 @@ if (args is not [var username])
     return 1;
 }
 
-var password = Console.ReadLine();
-var shadowEntry = ShadowFile.Read().FirstOrDefault(shadow => shadow.UserName == username);
-if (!PasswordCheck.CheckPassword(shadowEntry?.PasswordHash, password ?? ""))
+try
 {
-    Console.Error.WriteLine("Invalid credentials");
-    return 1;
-}
+    var password = Console.ReadLine();
+    var shadowEntry = ShadowFile.Read().FirstOrDefault(shadow => shadow.UserName == username);
+    if (!PasswordCheck.CheckPassword(shadowEntry?.PasswordHash, password ?? ""))
+    {
+        Console.Error.WriteLine("Invalid credentials");
+        return 1;
+    }
 
-var groups = GroupFile.Read().Where(g => g.Users.Contains(username));
-foreach (var matchingGroup in groups)
+    var groups = GroupFile.Read().Where(g => g.Users.Contains(username));
+    foreach (var matchingGroup in groups)
+    {
+        Console.WriteLine(matchingGroup.GroupName);
+    }
+
+    return 0;
+}
+catch (Exception e)
 {
-    Console.WriteLine(matchingGroup.GroupName);
+    Console.Error.WriteLine(e.Message);
+    return 255;
 }
-
-return 0;
