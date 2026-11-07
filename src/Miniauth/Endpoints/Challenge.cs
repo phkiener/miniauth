@@ -34,6 +34,9 @@ public static class Challenge
         context.Response.StatusCode = StatusCodes.Status403Forbidden;
 
         var accessDeniedPage = AccessDeniedPage.Render();
+
+        context.Response.StatusCode = StatusCodes.Status200OK;
+        context.Response.ContentType = "text/html; charset=utf-8";
         return context.Response.WriteAsync(accessDeniedPage);
     }
 }

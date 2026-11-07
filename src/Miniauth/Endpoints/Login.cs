@@ -20,6 +20,8 @@ public static class Login
         var wrongCredentials = context.Request.Query.ContainsKey("error");
         var loginPage = LoginPage.Render(showCredentialError: wrongCredentials);
 
+        context.Response.StatusCode = StatusCodes.Status200OK;
+        context.Response.ContentType = "text/html; charset=utf-8";
         return context.Response.WriteAsync(loginPage);
     }
 

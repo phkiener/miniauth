@@ -10,6 +10,8 @@ public static class Inspect
         var session = context.ReadSession();
         var loginPage = InspectPage.Render(session);
 
+        context.Response.StatusCode = StatusCodes.Status200OK;
+        context.Response.ContentType = "text/html; charset=utf-8";
         return context.Response.WriteAsync(loginPage);
     }
 }
