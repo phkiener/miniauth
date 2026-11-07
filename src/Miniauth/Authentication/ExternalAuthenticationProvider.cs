@@ -17,7 +17,7 @@ public sealed class ExternalAuthenticationProvider(IConfiguration configuration,
             return null;
         }
 
-        var processInfo = new ProcessStartInfo(executable, [username, password])
+        var processInfo = new ProcessStartInfo(executable, [username])
         {
             RedirectStandardError = true,
             RedirectStandardOutput = true,
@@ -30,6 +30,8 @@ public sealed class ExternalAuthenticationProvider(IConfiguration configuration,
             logger.LogError("Could not start process '{ProcessName}'", executable);
             return null;
         }
+
+        await process.StandardInput.WriteLineAsync(password);
 
         var stdOut = process.StandardOutput.ReadToEndAsync(cancellationToken);
         var stdErr = process.StandardError.ReadToEndAsync(cancellationToken);
