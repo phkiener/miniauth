@@ -28,6 +28,8 @@ public static class Challenge
         if (requiredScope.All(s => session.Scopes.Contains(s)))
         {
             context.Response.StatusCode = StatusCodes.Status204NoContent;
+            context.Response.Headers.Append("Remote-User", session.User);
+
             return Task.CompletedTask;
         }
 
