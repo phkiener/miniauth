@@ -34,7 +34,12 @@ public static class Login
         var authenticationProvider = context.RequestServices.GetRequiredService<IAuthenticationProvider>();
         if (!authenticationProvider.Authenticate(username, password, out var session))
         {
-            var redirectTarget = QueryHelpers.AddQueryString(context.Request.GetEncodedPathAndQuery(), "error", "true");
+            var redirectTarget = context.Request.GetEncodedPathAndQuery();
+            if (!redirectTarget.Contains("error=true"))
+            {
+                redirectTarget = QueryHelpers.AddQueryString(redirectTarget, "error", "true");
+            }
+
             context.Response.Redirect(redirectTarget);
 
             return;
