@@ -10,6 +10,6 @@ public static partial class PasswordCheck
         return result == hash;
     }
 
-    [LibraryImport("libxcrypt", StringMarshalling = StringMarshalling.Utf8)]
+    [LibraryImport("libcrypt", EntryPoint = "crypt", StringMarshalling = StringMarshalling.Utf8)]
     private static partial string Crypt(string phrase, string setting);
 }
