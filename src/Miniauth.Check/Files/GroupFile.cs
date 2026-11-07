@@ -6,7 +6,7 @@ public sealed record GroupFileEntry(string GroupName, string[] Users);
 
 public static class GroupFile
 {
-    public static IEnumerable<GroupFileEntry> Read(string path = "/etc/shadow")
+    public static IEnumerable<GroupFileEntry> Read(string path = "/etc/group")
     {
         foreach (var line in File.ReadAllLines(path))
         {
