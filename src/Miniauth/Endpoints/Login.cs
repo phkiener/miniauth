@@ -32,7 +32,8 @@ public static class Login
         var password = form["password"].ToString();
 
         var authenticationProvider = context.RequestServices.GetRequiredService<IAuthenticationProvider>();
-        if (!authenticationProvider.Authenticate(username, password, out var session))
+        var session = await authenticationProvider.AuthenticateAsync(username, password, context.RequestAborted);
+        if (session is null)
         {
             var redirectTarget = context.Request.GetEncodedPathAndQuery();
             if (!redirectTarget.Contains("error=true"))

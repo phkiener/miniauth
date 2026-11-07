@@ -4,7 +4,7 @@ using Miniauth.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDataProtection();
-builder.Services.AddTransient<IAuthenticationProvider, PamAuthenticationProvider>();
+builder.Services.AddTransient<IAuthenticationProvider, ExternalAuthenticationProvider>();
 builder.Services.AddTransient<IDataProtector>(
     static sp => sp.GetRequiredService<IDataProtectionProvider>().CreateProtector("default"));
 
