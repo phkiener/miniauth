@@ -6,7 +6,7 @@ public static class ShadowFile
 {
     private sealed record ShadowFileEntry(string UserName, string PasswordHash);
 
-    public static string? FindPasswordHash(string username, string path = "/etc/shadow")
+    public static string? FindPasswordHash(string username, string path)
     {
         foreach (var line in File.ReadAllLines(path))
         {
