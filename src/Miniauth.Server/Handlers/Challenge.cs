@@ -40,15 +40,13 @@ public static class Challenge
             return;
         }
 
+        context.Response.StatusCode = StatusCodes.Status204NoContent;
+        context.Response.Headers.Append("Remote-User", context.User.FindFirstValue("name"));
+
         if (isTopLevelRequest)
         {
             context.Response.StatusCode = StatusCodes.Status200OK;
             await context.Response.WriteAsync("Congrats, you got access.");
-
-            return;
         }
-
-        context.Response.StatusCode = StatusCodes.Status204NoContent;
-        context.Response.Headers.Append("Remote-User", context.User.FindFirstValue("name"));
     }
 }
