@@ -56,7 +56,7 @@ public sealed class SessionCookieHandler(IOptions<MiniauthOptions> options, IDat
                 ["uri"] = properties.GetParameter<string>("uri"),
             };
 
-            var redirectTarget = QueryHelpers.AddQueryString("/login", queryParameters);
+            var redirectTarget = QueryHelpers.AddQueryString($"{options.Value.LoginHost}/login", queryParameters);
 
             httpContext?.Response.Redirect(redirectTarget);
             return Task.CompletedTask;
@@ -78,7 +78,7 @@ public sealed class SessionCookieHandler(IOptions<MiniauthOptions> options, IDat
                 ["uri"] = properties.GetParameter<string>("uri"),
             };
 
-            var redirectTarget = QueryHelpers.AddQueryString("/forbidden", queryParameters);
+            var redirectTarget = QueryHelpers.AddQueryString($"{options.Value.LoginHost}/forbidden", queryParameters);
 
             httpContext?.Response.Redirect(redirectTarget);
             return Task.CompletedTask;

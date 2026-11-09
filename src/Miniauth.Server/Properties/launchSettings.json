@@ -10,6 +10,7 @@
           "ASPNETCORE_ENVIRONMENT": "Development",
 
           "MINIAUTH_DOMAIN": "localhost",
+          "MINIAUTH_LOGINHOST": "https://localhost:7195",
           "MINIAUTH_SESSIONLIFETIMEDAYS": "1",
           "MINIAUTH_EXECUTABLE": "/dev/null",
           "MINIAUTH_SHADOWFILE": "/dev/null",
