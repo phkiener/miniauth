@@ -104,6 +104,6 @@ public sealed partial class Login(
             return "/";
         }
 
-        return $"{Protocol}://{Host}/{Uri}";
+        return $"{Protocol}://{Host}{Uri}";
     }
 }

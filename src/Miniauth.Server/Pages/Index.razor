@@ -1,5 +1,6 @@
 @page "/"
 @layout CenteredCardLayout
+@attribute [RequireAntiforgeryToken(required: false)]
 
 @if (username is null)
 {
