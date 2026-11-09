@@ -9,7 +9,7 @@ RUN dotnet publish --no-restore --no-build --configuration Release -o /publish .
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS RUN
 
-RUN apt install libxcrypt
+RUN apt install libcrypt1
 
 WORKDIR /app
 COPY --from=SDK /publish ./
