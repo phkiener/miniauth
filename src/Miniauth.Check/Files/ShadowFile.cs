@@ -21,8 +21,11 @@ public static class ShadowFile
 
     private static bool TryParse(string line, [MaybeNullWhen(false)] out ShadowFileEntry entry)
     {
+        // /etc/shadow has 9 fields, each separated by a colon (':').
+        // We only care about the first two, but we'll reject anything that doesn't conform to shadow(5).
+
         var parts = line.Split(':');
-        if (parts is not [var login, var hash, ..])
+        if (parts is not [var login, var hash, _, _, _, _, _, _, _])
         {
             entry = null;
             return false;

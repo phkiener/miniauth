@@ -10,6 +10,11 @@
     <File Path="LICENSE.txt" />
     <File Path="NuGet.config" />
   </Folder>
-  <Project Path="src/Miniauth.Check/Miniauth.Check.csproj" />
-  <Project Path="src/Miniauth/Miniauth.csproj" />
+  <Folder Name="/Check/">
+    <Project Path="src/Miniauth.Check/Miniauth.Check.csproj" />
+    <Project Path="test/Miniauth.Check.Test/Miniauth.Check.Test.csproj" />
+  </Folder>
+  <Folder Name="/Server/">
+    <Project Path="src/Miniauth/Miniauth.csproj" />
+  </Folder>
 </Solution>
