@@ -14,6 +14,6 @@ RUN apt-get update && apt-get install -y libcrypt1
 RUN ln -s /lib/x86_64-linux-gnu/libcrypt.so.1 /usr/bin/libcrypt.so.1
 
 WORKDIR /app
-COPY --from=SDK /publish ./
+COPY --from=build /publish ./
 
 ENTRYPOINT ["dotnet", "Miniauth.Server.dll"]
