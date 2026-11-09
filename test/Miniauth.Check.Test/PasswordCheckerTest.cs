@@ -10,7 +10,7 @@ public sealed class PasswordCheckerTest
         using var shadowFile = TempFile.Create("etc-shadow", "foobar:$0$dummy$hash$:::::::");
         using var groupFile = TempFile.Create("etc-group", "group::1:foobar");
 
-        var crypt = new DummyCrypt("$0$dummy$hash$");
+        var crypt = new DummyCrypt("password");
         var checker = new PasswordChecker(crypt: crypt, shadowFile: shadowFile, groupFile: groupFile);
 
         var result = checker.Check("foobar", "password");
@@ -23,7 +23,7 @@ public sealed class PasswordCheckerTest
         using var shadowFile = TempFile.Create("etc-shadow", "foobar:$0$dummy$hash$:::::::");
         using var groupFile = TempFile.Create("etc-group", "group::1:foobar");
 
-        var crypt = new DummyCrypt("$0$different$hash$");
+        var crypt = new DummyCrypt("something-else");
         var checker = new PasswordChecker(crypt: crypt, shadowFile: shadowFile, groupFile: groupFile);
 
         var result = checker.Check("foobar", "password");

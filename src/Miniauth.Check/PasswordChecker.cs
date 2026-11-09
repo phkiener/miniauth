@@ -17,7 +17,7 @@ public sealed class PasswordChecker(ICrypt crypt, string shadowFile, string grou
     {
         var passwordHash = ShadowFile.FindPasswordHash(username, path: shadowFile);
 
-        var generatedHash = crypt.Crypt(passwordHash ?? "", password);
+        var generatedHash = crypt.Crypt(password, passwordHash ?? "");
         if (generatedHash != passwordHash)
         {
             return new CheckResult.Failure();
