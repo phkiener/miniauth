@@ -2,19 +2,21 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Miniauth.Check.Files;
 
-public sealed record ShadowFileEntry(string UserName, string PasswordHash);
-
 public static class ShadowFile
 {
-    public static IEnumerable<ShadowFileEntry> Read(string path = "/etc/shadow")
+    private sealed record ShadowFileEntry(string UserName, string PasswordHash);
+
+    public static string? FindPasswordHash(string username, string path = "/etc/shadow")
     {
         foreach (var line in File.ReadAllLines(path))
         {
-            if (TryParse(line, out var entry))
+            if (TryParse(line, out var entry) && entry.UserName == username)
             {
-                yield return entry;
+                return entry.PasswordHash;
             }
         }
+
+        return null;
     }
 
     private static bool TryParse(string line, [MaybeNullWhen(false)] out ShadowFileEntry entry)

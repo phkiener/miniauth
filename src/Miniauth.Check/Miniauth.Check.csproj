@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <OutputType>exe</OutputType>
+    <AssemblyName>miniauth-check</AssemblyName>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   

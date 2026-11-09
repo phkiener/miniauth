@@ -2,17 +2,17 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Miniauth.Check.Files;
 
-public sealed record GroupFileEntry(string GroupName, string[] Users);
-
 public static class GroupFile
 {
-    public static IEnumerable<GroupFileEntry> Read(string path = "/etc/group")
+    private sealed record GroupFileEntry(string GroupName, string[] Users);
+
+    public static IEnumerable<string> FindGroups(string username, string path = "/etc/group")
     {
         foreach (var line in File.ReadAllLines(path))
         {
-            if (TryParse(line, out var entry))
+            if (TryParse(line, out var entry) && entry.Users.Contains(username))
             {
-                yield return entry;
+                yield return entry.GroupName;
             }
         }
     }
