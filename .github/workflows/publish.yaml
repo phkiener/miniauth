@@ -1,0 +1,23 @@
+name: Publish server and check
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build-check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Build executable
+        run: dotnet publish -c Release -r linux-x64 -o publish src/Miniauth.Check
+
+      - name: Attach to release
+        run: gh release upload ${{ github.ref_name }} publish/miniauth-check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
