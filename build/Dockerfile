@@ -5,7 +5,7 @@ COPY ./ ./
 
 RUN dotnet restore
 RUN dotnet build --no-restore --configuration Release
-RUN dotnet publish --no-restore --no-build --configuration Release -o /publish ./src/MiniAuth.Server
+RUN dotnet publish --no-restore --no-build --configuration Release -o /publish ./src/Miniauth.Server
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS RUN
 
