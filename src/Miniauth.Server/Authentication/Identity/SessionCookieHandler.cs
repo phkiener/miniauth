@@ -109,7 +109,7 @@ public sealed class SessionCookieHandler(IOptions<MiniauthOptions> options, IDat
 
     public Task SignOutAsync(AuthenticationProperties? properties)
     {
-        httpContext?.Response.Cookies.Delete(CookieName);
+        httpContext?.Response.Cookies.Delete(CookieName, new CookieOptions { Domain = options.Value.Domain });
         return Task.CompletedTask;
     }
 }
