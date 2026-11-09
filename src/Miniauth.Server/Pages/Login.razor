@@ -9,7 +9,7 @@
         </label>
         <label>
             <span>Password</span>
-            <InputText @bind-Value="@Password" DisplayName="Password" placeholder="hunter2" />
+            <InputText @bind-Value="@Password" DisplayName="Password" placeholder="hunter2" type="password" autocomplete="off" />
         </label>
 
         @if (errorMessage is not null)
