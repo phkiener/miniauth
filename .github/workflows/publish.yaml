@@ -4,13 +4,14 @@ on:
   release:
     types: [created]
 
-
 jobs:
   build-server:
     runs-on: ubuntu-latest
     env:
       REGISTRY: ghcr.io
       IMAGE_NAME: ${{ github.repository }}
+    permissions:
+      packages: write
 
     steps:
       - name: Checkout repository
