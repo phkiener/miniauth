@@ -35,6 +35,8 @@ jobs:
       - name: Build and push image
         id: push
         uses: docker/build-push-action@v7
+        env:
+          DOCKER_BUILD_SUMMARY: false
         with:
           context: .
           file: build/Dockerfile
