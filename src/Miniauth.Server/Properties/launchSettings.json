@@ -11,7 +11,9 @@
 
           "MINIAUTH_DOMAIN": "localhost",
           "MINIAUTH_SESSIONLIFETIMEDAYS": "1",
-          "MINIAUTH_EXECUTABLE": "/dev/null"
+          "MINIAUTH_EXECUTABLE": "/dev/null",
+          "MINIAUTH_SHADOWFILE": "/dev/null",
+          "MINIAUTH_GROUPFILE": "/dev/null"
         }
       }
     }

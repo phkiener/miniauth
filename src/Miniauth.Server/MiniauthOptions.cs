@@ -15,4 +15,12 @@ public sealed class MiniauthOptions
     [Required]
     [ConfigurationKeyName("MINIAUTH_EXECUTABLE")]
     public required string Executable { get; set; }
+
+    [Required]
+    [ConfigurationKeyName("MINIAUTH_SHADOWFILE")]
+    public required string ShadowFile { get; set; }
+
+    [Required]
+    [ConfigurationKeyName("MINIAUTH_GROUPFILE")]
+    public required string GroupFile { get; set; }
 }

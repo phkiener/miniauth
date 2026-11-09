@@ -12,7 +12,12 @@ public sealed class ExternalIdentityProvider(IOptions<MiniauthOptions> options, 
         {
             RedirectStandardError = true,
             RedirectStandardOutput = true,
-            RedirectStandardInput = true
+            RedirectStandardInput = true,
+            Environment =
+            {
+                ["SHADOWFILE"] = options.Value.ShadowFile,
+                ["GROUPFILE"] = options.Value.GroupFile
+            }
         };
 
         var process = Process.Start(processInfo);

@@ -18,8 +18,8 @@ try
     var password = Console.ReadLine();
     var passwordChecker = new PasswordChecker(
         crypt: Libcrypt.Instance,
-        shadowFile: "/etc/shadow",
-        groupFile: "/etc/group");
+        shadowFile: Environment.GetEnvironmentVariable("SHADOWFILE") ?? "/etc/shadow",
+        groupFile: Environment.GetEnvironmentVariable("GROUPFILE") ?? "/etc/group");
 
     var result = passwordChecker.Check(username, password ?? "");
     if (result is CheckResult.Success { Groups: var groups })
