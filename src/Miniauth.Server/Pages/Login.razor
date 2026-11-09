@@ -1,0 +1,23 @@
+@page "/login"
+
+<main>
+    <EditForm EditContext="@editContext" FormName="login" Enhance OnSubmit="@LoginAsync">
+        <section class="login-form">
+            <label>
+                <span>Username</span>
+                <InputText @bind-Value="@Username" DisplayName="Username" placeholder="AzureDiamond" autofocus />
+            </label>
+            <label>
+                <span>Password</span>
+                <InputText @bind-Value="@Password" DisplayName="Password" placeholder="hunter2" />
+            </label>
+
+            @if (errorMessage is not null)
+            {
+                <p class="error">@errorMessage</p>
+            }
+
+            <button type="submit">Login</button>
+        </section>
+    </EditForm>
+</main>

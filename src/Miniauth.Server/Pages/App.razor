@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="@Assets["Miniauth.Server.styles.css"]" />
+
+    <HeadOutlet />
+    <title>Miniauth</title>
+</head>
+
+<body>
+<Router AppAssembly="@AppAssembly">
+    <Found>
+        <RouteView RouteData="@context" />
+    </Found>
+</Router>
+<script src="@Assets["_framework/blazor.web.js"]"></script>
+</body>
+</html>

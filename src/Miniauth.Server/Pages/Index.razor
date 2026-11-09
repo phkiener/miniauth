@@ -1,0 +1,20 @@
+@page "/"
+@layout CenteredCardLayout
+
+@if (username is null)
+{
+    <p>You are not logged in.</p>
+
+    <a href="/login">Log in</a>
+}
+else
+{
+    <p>
+        You are logged in as @username.
+        Your groups are: @(string.Join(", ", groups))
+    </p>
+
+    <EditForm Model="@this" FormName="logout" OnSubmit="@LogoutAsync">
+        <button type="submit">Log out</button>
+    </EditForm>
+}

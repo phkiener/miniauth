@@ -1,13 +1,13 @@
 using System.Diagnostics;
-using Miniauth.Session;
+using System.Security.Claims;
 
-namespace Miniauth.Authentication;
+namespace Miniauth.Server.Authentication;
 
 public sealed class ExternalAuthenticationProvider(IConfiguration configuration, ILogger<ExternalAuthenticationProvider> logger) : IAuthenticationProvider
 {
     private const string EnvVar = "MINIAUTH_CHECK";
 
-    public async Task<UserSession?> AuthenticateAsync(string username, string password, CancellationToken cancellationToken = default)
+    public async Task<ClaimsPrincipal?> AuthenticateAsync(string username, string password, CancellationToken cancellationToken = default)
     {
         var executable = configuration.GetValue<string>(EnvVar);
         if (executable is null)
@@ -45,6 +45,10 @@ public sealed class ExternalAuthenticationProvider(IConfiguration configuration,
 
         var groups = (await stdOut).Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
-        return new UserSession(username, groups);
+        var identity = new ClaimsIdentity("miniauth");
+        identity.AddClaim(new Claim("name", username));
+        identity.AddClaims(groups.Select(static g => new Claim("group", g)));
+
+        return new ClaimsPrincipal(identity);
     }
 }

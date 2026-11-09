@@ -15,6 +15,6 @@
     <Project Path="test/Miniauth.Check.Test/Miniauth.Check.Test.csproj" />
   </Folder>
   <Folder Name="/Server/">
-    <Project Path="src/Miniauth/Miniauth.csproj" />
+    <Project Path="src\Miniauth.Server\Miniauth.Server.csproj" />
   </Folder>
 </Solution>
