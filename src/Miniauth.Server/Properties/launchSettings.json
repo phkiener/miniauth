@@ -7,7 +7,11 @@
         "launchBrowser": false,
         "applicationUrl": "https://localhost:7195",
         "environmentVariables": {
-          "ASPNETCORE_ENVIRONMENT": "Development"
+          "ASPNETCORE_ENVIRONMENT": "Development",
+
+          "MINIAUTH_DOMAIN": "localhost",
+          "MINIAUTH_SESSIONLIFETIMEDAYS": "1",
+          "MINIAUTH_EXECUTABLE": "/dev/null"
         }
       }
     }

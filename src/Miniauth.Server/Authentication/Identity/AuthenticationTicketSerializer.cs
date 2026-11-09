@@ -10,7 +10,7 @@ public sealed class AuthenticationTicketSerializer : IDataSerializer<Authenticat
     {
         var username = model.Principal.FindFirstValue("name");
         var groups = model.Principal.FindAll("group").Select(static c => c.Value);
-        var type = model.Principal.Identity?.Name;
+        var type = model.Principal.Identity?.AuthenticationType;
 
         var serialized = $"{model.AuthenticationScheme}:{type}:{username}:{string.Join(',', groups)}";
         return Encoding.UTF8.GetBytes(serialized);

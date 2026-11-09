@@ -1,10 +1,10 @@
 using System.Security.Claims;
 
-namespace Miniauth.Server.Authentication;
+namespace Miniauth.Server.Authentication.Identity;
 
-public sealed class LocalLoginProvider : IAuthenticationProvider
+public sealed class LocalIdentityProvider : IIdentityProvider
 {
-    public Task<ClaimsPrincipal?> AuthenticateAsync(string username, string password, CancellationToken cancellationToken = default)
+    public Task<ClaimsPrincipal?> LoginAsync(string username, string password, CancellationToken cancellationToken = default)
     {
         if (username is "AzureDiamond" && password is "hunter2")
         {

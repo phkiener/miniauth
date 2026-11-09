@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Miniauth.Server.Pages;
 
-public sealed partial class Index(NavigationManager navigationManager) : ComponentBase
+public sealed partial class Index(NavigationManager navigationManager, ILogger<Index> logger) : ComponentBase
 {
     [CascadingParameter]
     public required HttpContext HttpContext { get; set; }
@@ -27,6 +27,8 @@ public sealed partial class Index(NavigationManager navigationManager) : Compone
     private async Task LogoutAsync()
     {
         await HttpContext.SignOutAsync();
+        logger.LogInformation("Explicitly logged out user {Username} from {IP}", username, HttpContext.Connection.RemoteIpAddress);
+
         navigationManager.NavigateTo("/");
     }
 }

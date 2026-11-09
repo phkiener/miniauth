@@ -1,15 +1,21 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 
 namespace Miniauth.Server.Authentication.Identity;
 
-public sealed class SessionCookieHandler(IOptions<SessionCookieOptions> options, IDataProtectionProvider dataProtectionProvider) : IAuthenticationSignInHandler
+public sealed class SessionCookieHandler(IOptions<MiniauthOptions> options, IDataProtectionProvider dataProtectionProvider) : IAuthenticationSignInHandler
 {
-    public const string Name = "session-cookie";
+    private readonly SecureDataFormat<AuthenticationTicket> ticketFormat = new(
+        serializer: new AuthenticationTicketSerializer(),
+        protector: dataProtectionProvider.CreateProtector(Name));
 
     private HttpContext? httpContext;
+
+    public const string Name = "session-cookie";
+    public const string CookieName = ".miniauth";
 
     public Task InitializeAsync(AuthenticationScheme scheme, HttpContext context)
     {
@@ -23,17 +29,13 @@ public sealed class SessionCookieHandler(IOptions<SessionCookieOptions> options,
 
     public Task<AuthenticateResult> AuthenticateAsync()
     {
-        var cookieName = options.Value.CookieName;
-        var cookieValue = httpContext?.Request.Cookies[cookieName];
+        var cookieValue = httpContext?.Request.Cookies[CookieName];
         if (cookieValue is null)
         {
             return Task.FromResult(AuthenticateResult.NoResult());
         }
 
-        var dataProtector = dataProtectionProvider.CreateProtector(Name);
-        var format = new SecureDataFormat<AuthenticationTicket>(options.Value.TicketSerializer, dataProtector);
-
-        var result = format.Unprotect(cookieValue);
+        var result = ticketFormat.Unprotect(cookieValue);
         if (result?.AuthenticationScheme is not Name)
         {
             return Task.FromResult(AuthenticateResult.Fail("Cannot read session cookie"));
@@ -44,43 +46,70 @@ public sealed class SessionCookieHandler(IOptions<SessionCookieOptions> options,
 
     public Task ChallengeAsync(AuthenticationProperties? properties)
     {
-        httpContext?.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        if (properties?.GetParameter<bool>("allow-redirect") is true)
+        {
+            var queryParameters = new Dictionary<string, string?>
+            {
+                ["method"] = properties.GetParameter<string>("method"),
+                ["proto"] = properties.GetParameter<string>("proto"),
+                ["host"] = properties.GetParameter<string>("host"),
+                ["uri"] = properties.GetParameter<string>("uri"),
+            };
 
+            var redirectTarget = QueryHelpers.AddQueryString("/login", queryParameters);
+
+            httpContext?.Response.Redirect(redirectTarget);
+            return Task.CompletedTask;
+        }
+
+        httpContext?.Response.StatusCode = StatusCodes.Status401Unauthorized;
         return Task.CompletedTask;
     }
 
     public Task ForbidAsync(AuthenticationProperties? properties)
     {
-        httpContext?.Response.StatusCode = StatusCodes.Status403Forbidden;
+        if (properties?.GetParameter<bool>("allow-redirect") is true)
+        {
+            var queryParameters = new Dictionary<string, string?>
+            {
+                ["method"] = properties.GetParameter<string>("method"),
+                ["proto"] = properties.GetParameter<string>("proto"),
+                ["host"] = properties.GetParameter<string>("host"),
+                ["uri"] = properties.GetParameter<string>("uri"),
+            };
 
+            var redirectTarget = QueryHelpers.AddQueryString("/forbidden", queryParameters);
+
+            httpContext?.Response.Redirect(redirectTarget);
+            return Task.CompletedTask;
+        }
+
+        httpContext?.Response.StatusCode = StatusCodes.Status403Forbidden;
         return Task.CompletedTask;
     }
 
     public Task SignInAsync(ClaimsPrincipal user, AuthenticationProperties? properties)
     {
-        var dataProtector = dataProtectionProvider.CreateProtector(Name);
-        var format = new SecureDataFormat<AuthenticationTicket>(options.Value.TicketSerializer, dataProtector);
-
-        var cookieValue = format.Protect(new AuthenticationTicket(user, Name));
-        var cookieOptions = new CookieOptions()
+        var cookieValue = ticketFormat.Protect(new AuthenticationTicket(user, Name));
+        var cookieOptions = new CookieOptions
         {
             Secure = true,
             HttpOnly = true,
             IsEssential = true,
             SameSite = SameSiteMode.Lax,
 
-            Domain = options.Value.CookieDomain,
-            MaxAge = options.Value.CookieMaxAge
+            Domain = options.Value.Domain,
+            MaxAge = TimeSpan.FromDays(options.Value.SessionLifetimeDays)
         };
 
-        httpContext?.Response.Cookies.Append(options.Value.CookieName, cookieValue, cookieOptions);
+        httpContext?.Response.Cookies.Append(CookieName, cookieValue, cookieOptions);
 
         return Task.CompletedTask;
     }
 
     public Task SignOutAsync(AuthenticationProperties? properties)
     {
-        httpContext?.Response.Cookies.Delete(options.Value.CookieName);
+        httpContext?.Response.Cookies.Delete(CookieName);
         return Task.CompletedTask;
     }
 }

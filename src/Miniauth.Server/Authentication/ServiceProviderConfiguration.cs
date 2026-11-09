@@ -9,15 +9,17 @@ public static class ServiceProviderConfiguration
     {
         services.AddAuthentication(ConfigureAuthentication);
         services.AddCascadingAuthenticationState();
+        services.AddDataProtection();
+
         services.AddTransient<SessionCookieHandler>();
 
         if (environment.IsDevelopment())
         {
-            services.AddScoped<IAuthenticationProvider, LocalLoginProvider>();
+            services.AddScoped<IIdentityProvider, LocalIdentityProvider>();
         }
         else
         {
-            services.AddScoped<IAuthenticationProvider, ExternalAuthenticationProvider>();
+            services.AddScoped<IIdentityProvider, ExternalIdentityProvider>();
         }
     }
 

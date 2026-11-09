@@ -1,23 +1,14 @@
 using System.Diagnostics;
 using System.Security.Claims;
+using Microsoft.Extensions.Options;
 
-namespace Miniauth.Server.Authentication;
+namespace Miniauth.Server.Authentication.Identity;
 
-public sealed class ExternalAuthenticationProvider(IConfiguration configuration, ILogger<ExternalAuthenticationProvider> logger) : IAuthenticationProvider
+public sealed class ExternalIdentityProvider(IOptions<MiniauthOptions> options, ILogger<ExternalIdentityProvider> logger) : IIdentityProvider
 {
-    private const string EnvVar = "MINIAUTH_CHECK";
-
-    public async Task<ClaimsPrincipal?> AuthenticateAsync(string username, string password, CancellationToken cancellationToken = default)
+    public async Task<ClaimsPrincipal?> LoginAsync(string username, string password, CancellationToken cancellationToken = default)
     {
-        var executable = configuration.GetValue<string>(EnvVar);
-        if (executable is null)
-        {
-            logger.LogError("Missing configuration for {EnvVar}, cannot authenticate.", EnvVar);
-
-            return null;
-        }
-
-        var processInfo = new ProcessStartInfo(executable, [username])
+        var processInfo = new ProcessStartInfo(options.Value.Executable, [username])
         {
             RedirectStandardError = true,
             RedirectStandardOutput = true,
@@ -27,7 +18,7 @@ public sealed class ExternalAuthenticationProvider(IConfiguration configuration,
         var process = Process.Start(processInfo);
         if (process is null)
         {
-            logger.LogError("Could not start process '{ProcessName}'", executable);
+            logger.LogError("Could not start process '{ProcessName}'", options.Value.Executable);
             return null;
         }
 
