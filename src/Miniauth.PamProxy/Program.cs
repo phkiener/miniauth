@@ -1,9 +1,11 @@
 ﻿using LibPAM;
 
-if (args is not [var service, var username, var password])
+if (args is not [var service, var username])
 {
     return 1;
 }
+
+var password = Console.ReadLine() ?? string.Empty;
 
 try
 {
