@@ -17,4 +17,6 @@
   <Folder Name="/Server/">
     <Project Path="src\Miniauth.Server\Miniauth.Server.csproj" />
   </Folder>
+  <Project Path="src/libpam/libpam.csproj" />
+  <Project Path="src/Miniauth.PamProxy/Miniauth.PamProxy.csproj" />
 </Solution>
