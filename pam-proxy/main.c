@@ -63,7 +63,7 @@ void handle_connection(int client_fd) {
         char response_header[2] = { 'A', 'S' };
         send(client_fd, response_header, sizeof(response_header), 0);
 
-        char** groups;
+        char** groups = NULL;
         int ngroups;
         get_groups(user, groups, &ngroups);
 

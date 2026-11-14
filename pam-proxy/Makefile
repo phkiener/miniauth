@@ -8,10 +8,10 @@ obj/authenticate.o: src/authenticate.c src/authenticate.h | obj-dir
 	gcc -Wall -c -o obj/authenticate.o src/authenticate.c
 
 obj/socket.o: src/socket.c src/socket.h | obj-dir
-		gcc -Wall -c -o obj/socket.o src/socket.c
+	gcc -Wall -c -o obj/socket.o src/socket.c
 
 obj/groups.o: src/groups.c src/groups.h | obj-dir
-				gcc -Wall -c -o obj/groups.o src/groups.c
+	gcc -Wall -c -o obj/groups.o src/groups.c
 
 bin-dir:
 	mkdir -p bin/
