@@ -31,19 +31,19 @@ internal static partial class Native
         public int resp_retcode;
     }
 
-    [LibraryImport("libpam", EntryPoint = "pam_start")]
+    [LibraryImport("libpam.so.0", EntryPoint = "pam_start")]
     public static partial Status pam_start(
         [MarshalAs(UnmanagedType.LPStr)] string service,
         [MarshalAs(UnmanagedType.LPStr)] string? user,
         ref pam_conv pam_conversation,
         ref IntPtr pamh);
 
-    [LibraryImport("libpam", EntryPoint = "pam_authenticate")]
+    [LibraryImport("libpam.so.0", EntryPoint = "pam_authenticate")]
     public static partial Status pam_authenticate(ref IntPtr pamh, Flags flags);
 
-    [LibraryImport("libpam", EntryPoint = "pam_set_item")]
+    [LibraryImport("libpam.so.0", EntryPoint = "pam_set_item")]
     public static partial Status pam_set_item(ref IntPtr pamh, ItemType item_type, IntPtr item);
 
-    [LibraryImport("libpam", EntryPoint = "pam_end")]
+    [LibraryImport("libpam.so.0", EntryPoint = "pam_end")]
     public static partial Status pam_end(ref IntPtr pamh, Status status);
 }
