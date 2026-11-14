@@ -68,7 +68,7 @@ public sealed class Transaction : IDisposable
                 return false;
             }
 
-            lastStatus = Native.pam_authenticate(ref handle, 0);
+            lastStatus = Native.pam_authenticate(ref handle, Flags.Silent);
             return lastStatus is Status.Success;
         }
         finally
