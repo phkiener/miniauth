@@ -28,7 +28,7 @@ public sealed class Transaction : IDisposable
         // Make sure the pam_conv lives until after pam_end was called!
         conversationInfo = new Native.pam_conv
         {
-            conv = Marshal.GetFunctionPointerForDelegate<Native.pam_conv_callback>(Converse),
+            conv = Marshal.GetFunctionPointerForDelegate<Native.pam_conv_callback_raw>(ConverseRaw),
             appdata_ptr = IntPtr.Zero
         };
 
@@ -37,6 +37,11 @@ public sealed class Transaction : IDisposable
         {
             throw new InvalidOperationException($"Failed to initialize PAM transaction: {lastStatus}");
         }
+    }
+
+    private Status ConverseRaw(int numMsg, IntPtr msg, ref IntPtr resp, IntPtr appdataPtr)
+    {
+        return Status.Success;
     }
 
     /// <summary>
@@ -49,45 +54,31 @@ public sealed class Transaction : IDisposable
     {
         ObjectDisposedException.ThrowIf(disposed, this);
 
-        IntPtr usernamePointer = IntPtr.Zero;
-        IntPtr passwordPointer = IntPtr.Zero;
-
-        try
+        lastStatus = Native.pam_set_item(ref handle, ItemType.User, username);
+        if (lastStatus is not Status.Success)
         {
-            usernamePointer = Marshal.StringToHGlobalAuto(username);
-            lastStatus = Native.pam_set_item(ref handle, ItemType.User, usernamePointer);
-            if (lastStatus is not Status.Success)
-            {
-                return false;
-            }
-
-            passwordPointer = Marshal.StringToHGlobalAuto(password);
-            lastStatus = Native.pam_set_item(ref handle, ItemType.AuthenticationToken, passwordPointer);
-            if (lastStatus is not Status.Success)
-            {
-                return false;
-            }
-
-            lastStatus = Native.pam_authenticate(ref handle, Flags.Silent);
-            return lastStatus is Status.Success;
+            return false;
         }
-        finally
+
+        // lastStatus = Native.pam_set_item(ref handle, ItemType.AuthenticationToken, password);
+        // if (lastStatus is not Status.Success)
+        // {
+        //     return false;
+        // }
+
+        lastStatus = Native.pam_authenticate(ref handle, 0);
+        if (lastStatus is not Status.Success)
         {
-            if (usernamePointer != IntPtr.Zero)
-            {
-                Marshal.FreeHGlobal(usernamePointer);
-            }
-
-            if (passwordPointer != IntPtr.Zero)
-            {
-                Marshal.FreeHGlobal(passwordPointer);
-            }
+            Native.pam_error(ref handle, "Error: %s\n");
+            return false;
         }
+
+        return true;
     }
 
     private Status Converse(
         int num_msg,
-        [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] ref Native.pam_message[] msg,
+        [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] Native.pam_message[] msg,
         [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] ref Native.pam_response[] resp,
         ref IntPtr appdata_ptr)
     {
