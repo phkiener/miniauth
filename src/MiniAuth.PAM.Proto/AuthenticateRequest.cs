@@ -1,13 +1,10 @@
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using MiniAuth.PAM.Proto.Internal;
+using System.Net;
+using System.Text;
 
 namespace MiniAuth.PAM.Proto;
 
 public sealed record AuthenticateRequest(string User, string Password) : IMessage<AuthenticateRequest>
 {
-    private const string OperationName = "authenticate";
-
     public static async Task<AuthenticateRequest?> TryReadAsync(Stream stream, CancellationToken cancellationToken = default)
     {
         if (!stream.CanRead)
@@ -15,18 +12,33 @@ public sealed record AuthenticateRequest(string User, string Password) : IMessag
             throw new ArgumentException("Stream must be readable", nameof(stream));
         }
 
-        var node = await JsonNode.ParseAsync(stream, cancellationToken: cancellationToken);
-        var command = node.Deserialize<Command>(SerializerContext.Default.Command);
+        var header = new byte[4];
+        await stream.ReadExactlyAsync(header, cancellationToken);
+        if (!header.SequenceEqual("auth"u8))
+        {
+            return null;
+        }
 
-        return command?.Operation is not OperationName ? null : new AuthenticateRequest(command.User, command.Password);
+        var size = new byte[4];
+        await stream.ReadExactlyAsync(size, cancellationToken);
+        var messageSize = IPAddress.NetworkToHostOrder(BitConverter.ToInt32(size));
+
+        var message = new byte[messageSize];
+        await stream.ReadExactlyAsync(message, cancellationToken);
+        var text = Encoding.UTF8.GetString(message);
+
+        return text.Split(':') is [var username, var password] ? new AuthenticateRequest(username, password) : null;
     }
 
     public async Task WriteAsync(Stream stream, CancellationToken cancellationToken = default)
     {
-        var command = new Command(OperationName, User, Password);
-        await JsonSerializer.SerializeAsync(stream, command, SerializerContext.Default.Command, cancellationToken: cancellationToken);
-    }
+        var size = new byte[4];
+        var messageBytes = Encoding.UTF8.GetBytes($"{User}:{Password}");
+        BitConverter.TryWriteBytes(size, IPAddress.HostToNetworkOrder(messageBytes.Length));
 
-    internal sealed record Command(string Operation, string User, string Password);
+        await stream.WriteAsync("auth"u8.ToArray(), cancellationToken);
+        await stream.WriteAsync(size, cancellationToken);
+        await stream.WriteAsync(messageBytes, cancellationToken);
+    }
 
 }

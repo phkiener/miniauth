@@ -1,13 +1,10 @@
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using MiniAuth.PAM.Proto.Internal;
+using System.Net;
+using System.Text;
 
 namespace MiniAuth.PAM.Proto;
 
 public sealed record AuthenticateResponse(bool Success, string[] Groups) : IMessage<AuthenticateResponse>
 {
-    private const string OperationName = "authenticate";
-
     public static async Task<AuthenticateResponse?> TryReadAsync(Stream stream, CancellationToken cancellationToken = default)
     {
         if (!stream.CanRead)
@@ -15,17 +12,37 @@ public sealed record AuthenticateResponse(bool Success, string[] Groups) : IMess
             throw new ArgumentException("Stream must be readable", nameof(stream));
         }
 
-        var node = await JsonNode.ParseAsync(stream, cancellationToken: cancellationToken);
-        var command = node.Deserialize<Response>(SerializerContext.Default.Response);
+        var header = new byte[4];
+        await stream.ReadExactlyAsync(header, cancellationToken);
+        if (!header.SequenceEqual("resp"u8))
+        {
+            return null;
+        }
 
-        return command?.Operation is not OperationName ? null : new AuthenticateResponse(command.Success, command.Groups);
+        var size = new byte[4];
+        await stream.ReadExactlyAsync(size, cancellationToken);
+        var messageSize = IPAddress.NetworkToHostOrder(BitConverter.ToInt32(size));
+
+        var message = new byte[messageSize];
+        await stream.ReadExactlyAsync(message, cancellationToken);
+        var text = Encoding.UTF8.GetString(message);
+
+        if (text.Split(':') is not [var success, var groups] || !bool.TryParse(success, out var isSuccess))
+        {
+            return null;
+        }
+
+        return new AuthenticateResponse(isSuccess, groups.Split(','));
     }
 
     public async Task WriteAsync(Stream stream, CancellationToken cancellationToken = default)
     {
-        var command = new Response(OperationName, Success, Groups);
-        await JsonSerializer.SerializeAsync(stream, command, SerializerContext.Default.Response, cancellationToken: cancellationToken);
-    }
+        var size = new byte[4];
+        var messageBytes = Encoding.UTF8.GetBytes($"{Success}:{string.Join(",", Groups)}");
+        BitConverter.TryWriteBytes(size, IPAddress.HostToNetworkOrder(messageBytes.Length));
 
-    internal sealed record Response(string Operation, bool Success, string[] Groups);
+        await stream.WriteAsync("resp"u8.ToArray(), cancellationToken);
+        await stream.WriteAsync(size, cancellationToken);
+        await stream.WriteAsync(messageBytes, cancellationToken);
+    }
 }

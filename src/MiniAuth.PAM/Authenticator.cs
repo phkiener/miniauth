@@ -10,6 +10,6 @@ public sealed class Authenticator(string service)
         conversation.User = username;
         conversation.Password = password;
 
-        return conversation.Authenticate() && conversation.ValidateAccount();
+        return conversation.Authenticate();
     }
 }

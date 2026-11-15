@@ -26,11 +26,14 @@ async Task HandleClient(Socket client, CancellationToken cancellationToken)
         var request = await AuthenticateRequest.TryReadAsync(networkStream, cancellationToken);
         if (request is null)
         {
+            Console.WriteLine("Received invalid request, ignoring.");
             return; // protocol error, just abort.
         }
 
         var isAuthenticated = authenticator.HasAccess(request.User, request.Password);
         var groups = isAuthenticated ? Groups.EnumerateGroups(request.User).ToArray() : [];
+
+        Console.WriteLine($"Processed request for user '{request.User}' - isAuthenticated: {isAuthenticated}");
 
         var response = new AuthenticateResponse(isAuthenticated, groups);
         await response.WriteAsync(networkStream, cancellationToken);
