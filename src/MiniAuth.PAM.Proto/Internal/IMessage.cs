@@ -1,4 +1,4 @@
-namespace Miniauth.PamProxy.Proto.Internal;
+namespace MiniAuth.PAM.Proto.Internal;
 
 public interface IMessage<T>
 {

@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Miniauth.PamProxy.Proto.Internal;
+namespace MiniAuth.PAM.Proto.Internal;
 
 [JsonSourceGenerationOptions(WriteIndented = false)]
 [JsonSerializable(typeof(AuthenticateRequest.Command))]

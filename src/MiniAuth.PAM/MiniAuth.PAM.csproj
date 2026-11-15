@@ -20,7 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\libc\libc.csproj" />
     <ProjectReference Include="..\libpam\libpam.csproj" />
-    <ProjectReference Include="..\Miniauth.PamProxy.Proto\Miniauth.PamProxy.Proto.csproj" />
+    <ProjectReference Include="..\MiniAuth.PAM.Proto\MiniAuth.PAM.Proto.csproj" />
   </ItemGroup>
 
 </Project>

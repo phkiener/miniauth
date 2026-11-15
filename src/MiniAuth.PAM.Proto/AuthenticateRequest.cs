@@ -1,8 +1,8 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using Miniauth.PamProxy.Proto.Internal;
+using MiniAuth.PAM.Proto.Internal;
 
-namespace Miniauth.PamProxy.Proto;
+namespace MiniAuth.PAM.Proto;
 
 public sealed record AuthenticateRequest(string User, string Password) : IMessage<AuthenticateRequest>
 {
