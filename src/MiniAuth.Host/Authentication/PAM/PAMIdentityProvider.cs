@@ -21,9 +21,9 @@ public sealed class PAMIdentityProvider(IOptions<PAMOptions> options, ILogger<PA
             var bytesRead = await client.ReceiveAsync(buffer, cancellationToken);
 
             var response = Encoding.UTF8.GetString(buffer[..bytesRead]);
-            if (response.Split(':') is ["AUTH", var groupList])
+            if (response.Split(':', StringSplitOptions.TrimEntries) is ["AUTH", var groupList])
             {
-                var groups = groupList.Split(',');
+                var groups = groupList.Split(',', StringSplitOptions.TrimEntries);
                 var identity = new ClaimsIdentity("PAM");
                 identity.AddClaim(new Claim("name", username));
 

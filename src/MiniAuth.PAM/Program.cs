@@ -27,7 +27,7 @@ async Task HandleClient(Socket client, CancellationToken cancellationToken)
         var bytesRead = await client.ReceiveAsync(buffer, cancellationToken);
         var command = Encoding.UTF8.GetString(buffer[..bytesRead]);
 
-        if (command.Split(':') is ["AUTH", var username, var password])
+        if (command.Split(':', StringSplitOptions.TrimEntries) is ["AUTH", var username, var password])
         {
             var isAuthenticated = authenticator.HasAccess(username, password);
             var groups = isAuthenticated ? Groups.EnumerateGroups(username).ToArray() : [];
