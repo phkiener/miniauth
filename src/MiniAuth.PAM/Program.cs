@@ -1,7 +1,7 @@
 ﻿using System.Net.Sockets;
+using System.Text;
 using LibC;
 using MiniAuth.PAM;
-using MiniAuth.PAM.Proto;
 
 if (args is not [var service, var socket])
 {
@@ -15,31 +15,35 @@ Console.CancelKeyPress += (_, _) => cancellationTokenSource.Cancel();
 var authenticator = new Authenticator(service);
 using var server = Server.Create(socket, HandleClient);
 await server.RunAsync(cancellationTokenSource.Token);
+
 return 0;
 
 async Task HandleClient(Socket client, CancellationToken cancellationToken)
 {
     try
     {
-        await using var networkStream = new NetworkStream(client, true);
+        var buffer = new byte[2048];
 
-        var request = await AuthenticateRequest.TryReadAsync(networkStream, cancellationToken);
-        if (request is null)
+        var bytesRead = await client.ReceiveAsync(buffer, cancellationToken);
+        var command = Encoding.UTF8.GetString(buffer[..bytesRead]);
+
+        if (command.Split(':') is ["AUTH", var username, var password])
         {
-            Console.WriteLine("Received invalid request, ignoring.");
-            return; // protocol error, just abort.
+            var isAuthenticated = authenticator.HasAccess(username, password);
+            var groups = isAuthenticated ? Groups.EnumerateGroups(username).ToArray() : [];
+
+            var response = isAuthenticated ? $"AUTH:{string.Join(",", groups)}" : "FAIL";
+            await client.SendAsync(Encoding.UTF8.GetBytes(response), cancellationToken);
+        }
+        else
+        {
+            await client.SendAsync("ERROR"u8.ToArray(), cancellationToken);
         }
 
-        var isAuthenticated = authenticator.HasAccess(request.User, request.Password);
-        var groups = isAuthenticated ? Groups.EnumerateGroups(request.User).ToArray() : [];
-
-        Console.WriteLine($"Processed request for user '{request.User}' - isAuthenticated: {isAuthenticated}");
-
-        var response = new AuthenticateResponse(isAuthenticated, groups);
-        await response.WriteAsync(networkStream, cancellationToken);
+        client.Close();
     }
     finally
     {
-        client.Close();
+        client.Dispose();
     }
 }

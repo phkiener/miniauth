@@ -20,7 +20,6 @@
   <Folder Name="/PAM/">
     <Project Path="src/libc/libc.csproj" />
     <Project Path="src/libpam/libpam.csproj" />
-    <Project Path="src/MiniAuth.PAM.Proto/MiniAuth.PAM.Proto.csproj" />
     <Project Path="src/MiniAuth.PAM/MiniAuth.PAM.csproj" />
   </Folder>
   <Folder Name="/Server/">

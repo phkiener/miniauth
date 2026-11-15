@@ -1,7 +1,7 @@
 using System.Net.Sockets;
 using System.Security.Claims;
+using System.Text;
 using Microsoft.Extensions.Options;
-using MiniAuth.PAM.Proto;
 
 namespace MiniAuth.Host.Authentication.PAM;
 
@@ -9,38 +9,43 @@ public sealed class PAMIdentityProvider(IOptions<PAMOptions> options, ILogger<PA
 {
     public async Task<ClaimsPrincipal?> LoginAsync(string username, string password, CancellationToken cancellationToken = default)
     {
+        var path = Path.GetFullPath(options.Value.Socket);
+        using var client = new Socket(AddressFamily.Unix, SocketType.Stream, ProtocolType.Unspecified);
+
         try
         {
-            var path = Path.GetFullPath(options.Value.Socket);
-
-            using var client = new Socket(AddressFamily.Unix, SocketType.Stream, ProtocolType.Unspecified);
             await client.ConnectAsync(new UnixDomainSocketEndPoint(path), cancellationToken);
+            await client.SendAsync(Encoding.UTF8.GetBytes($"AUTH:{username}:{password}"), cancellationToken);
 
-            await using var stream = new NetworkStream(client);
-            var request = new AuthenticateRequest(username, password);
-            await request.WriteAsync(stream, cancellationToken);
-            await stream.FlushAsync(cancellationToken);
+            var buffer = new byte[2048];
+            var bytesRead = await client.ReceiveAsync(buffer, cancellationToken);
 
-            var response = await AuthenticateResponse.TryReadAsync(stream, cancellationToken);
-            if (response is null || !response.Success)
+            var response = Encoding.UTF8.GetString(buffer[..bytesRead]);
+            if (response.Split(':') is ["AUTH", var groupList])
             {
-                return null;
+                var groups = groupList.Split(',');
+                var identity = new ClaimsIdentity("PAM");
+                identity.AddClaim(new Claim("name", username));
+
+                foreach (var group in groups)
+                {
+                    identity.AddClaim(new Claim("group", group));
+                }
+
+                return new ClaimsPrincipal(identity);
             }
 
-            var identity = new ClaimsIdentity("PAM");
-            identity.AddClaim(new Claim("name", username));
+            return null;
 
-            foreach (var group in response.Groups)
-            {
-                identity.AddClaim(new Claim("group", group));
-            }
-
-            return new ClaimsPrincipal(identity);
         }
         catch (Exception e)
         {
             logger.LogError(e, "Failed to authenticate user {User} via PAM", username);
             return null;
+        }
+        finally
+        {
+            client.Close();
         }
     }
 }
