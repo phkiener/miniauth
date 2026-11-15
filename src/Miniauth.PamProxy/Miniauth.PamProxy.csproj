@@ -9,6 +9,7 @@
 
   <PropertyGroup Condition="$(Configuration) == 'Release'">
     <PublishAot>true</PublishAot>
+    <PublishSingleFile>true</PublishSingleFile>
     <DebugType>none</DebugType>
   </PropertyGroup>
 
