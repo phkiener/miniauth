@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace Miniauth.Server.Authentication.Identity;
 
-public sealed class SessionCookieHandler(IOptions<MiniauthOptions> options, IDataProtectionProvider dataProtectionProvider) : IAuthenticationSignInHandler
+public sealed class SessionCookieHandler(IOptions<IdentityOptions> options, IDataProtectionProvider dataProtectionProvider) : IAuthenticationSignInHandler
 {
     private readonly SecureDataFormat<AuthenticationTicket> ticketFormat = new(
         serializer: new AuthenticationTicketSerializer(),

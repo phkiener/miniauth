@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace Miniauth.Server.Authentication.Identity;
+namespace Miniauth.Server.Authentication.Local;
 
 public sealed class LocalIdentityProvider : IIdentityProvider
 {
@@ -12,6 +12,7 @@ public sealed class LocalIdentityProvider : IIdentityProvider
             identity.AddClaim(new Claim("name", username));
             identity.AddClaim(new Claim("group", "IRC user"));
             identity.AddClaim(new Claim("group", "bash.org legend"));
+
             return Task.FromResult<ClaimsPrincipal?>(new ClaimsPrincipal(identity));
         }
 

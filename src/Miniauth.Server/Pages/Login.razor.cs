@@ -10,7 +10,7 @@ namespace Miniauth.Server.Pages;
 public sealed partial class Login(
     IIdentityProvider authenticationProvider,
     NavigationManager navigationManager,
-    IOptions<MiniauthOptions> options,
+    IOptions<IdentityOptions> options,
     ILogger<Login> logger) : ComponentBase
 {
     [SupplyParameterFromQuery(Name = "method")]

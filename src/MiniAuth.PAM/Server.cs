@@ -27,6 +27,7 @@ public sealed class Server : IDisposable
 
         running = true;
         socket.Listen(backlog: 10);
+        Console.WriteLine($"Listening on {socket.LocalEndPoint}...");
 
         try
         {
@@ -38,6 +39,7 @@ public sealed class Server : IDisposable
         }
         finally
         {
+            Console.WriteLine("Shutting down...");
             running = false;
         }
     }
@@ -55,7 +57,7 @@ public sealed class Server : IDisposable
             File.Delete(path);
         }
 
-        return new Server(path, handler);
+        return new Server(Path.GetFullPath(path), handler);
     }
 
     public void Dispose()

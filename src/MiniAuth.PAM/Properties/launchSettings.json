@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "Serve (login)": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "commandLineArgs": "login ../../../../../miniauth.socket.user"
+    }
+  }
+}

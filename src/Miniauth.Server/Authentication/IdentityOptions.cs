@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Miniauth.Server;
+namespace Miniauth.Server.Authentication;
 
-public sealed class MiniauthOptions
+public sealed class IdentityOptions
 {
     [Required]
     [ConfigurationKeyName("MINIAUTH_DOMAIN")]
@@ -15,16 +15,4 @@ public sealed class MiniauthOptions
     [Range(minimum: 1, maximum: 14)]
     [ConfigurationKeyName("MINIAUTH_SESSIONLIFETIMEDAYS")]
     public int SessionLifetimeDays { get; set; } = 7;
-
-    [Required]
-    [ConfigurationKeyName("MINIAUTH_EXECUTABLE")]
-    public required string Executable { get; set; }
-
-    [Required]
-    [ConfigurationKeyName("MINIAUTH_SHADOWFILE")]
-    public required string ShadowFile { get; set; }
-
-    [Required]
-    [ConfigurationKeyName("MINIAUTH_GROUPFILE")]
-    public required string GroupFile { get; set; }
 }

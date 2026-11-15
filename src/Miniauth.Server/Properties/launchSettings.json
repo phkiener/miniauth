@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/launchsettings.json",
     "profiles": {
-      "Run": {
+      "Run (local)": {
         "commandName": "Project",
         "dotnetRunMessages": true,
         "launchBrowser": false,
@@ -9,12 +9,25 @@
         "environmentVariables": {
           "ASPNETCORE_ENVIRONMENT": "Development",
 
+          "MINIAUTH_IDENTITY": "local",
           "MINIAUTH_DOMAIN": "localhost",
           "MINIAUTH_LOGINHOST": "https://localhost:7195",
-          "MINIAUTH_SESSIONLIFETIMEDAYS": "1",
-          "MINIAUTH_EXECUTABLE": "/dev/null",
-          "MINIAUTH_SHADOWFILE": "/dev/null",
-          "MINIAUTH_GROUPFILE": "/dev/null"
+          "MINIAUTH_SESSIONLIFETIMEDAYS": "1"
+        }
+      },
+      "Run (PAM)": {
+        "commandName": "Project",
+        "dotnetRunMessages": true,
+        "launchBrowser": false,
+        "applicationUrl": "https://localhost:7195",
+        "environmentVariables": {
+          "ASPNETCORE_ENVIRONMENT": "Development",
+
+          "MINIAUTH_IDENTITY": "PAM",
+          "PAM_SOCKET": "../../miniauth.socket.user",
+          "MINIAUTH_DOMAIN": "localhost",
+          "MINIAUTH_LOGINHOST": "https://localhost:7195",
+          "MINIAUTH_SESSIONLIFETIMEDAYS": "1"
         }
       }
     }

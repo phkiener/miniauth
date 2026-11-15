@@ -1,4 +1,3 @@
-using Miniauth.Server;
 using Miniauth.Server.Authentication;
 using Miniauth.Server.Handlers;
 using Miniauth.Server.Pages;
@@ -6,11 +5,7 @@ using Miniauth.Server.Pages;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAntiforgery();
 builder.Services.AddRazorComponents();
-builder.Services.AddAuthentication(builder.Environment);
-builder.Services.AddOptions<MiniauthOptions>()
-    .BindConfiguration(string.Empty)
-    .ValidateDataAnnotations()
-    .ValidateOnStart();
+builder.Services.AddAuthentication(builder.Configuration);
 
 builder.Logging.AddSystemdConsole(static opt => opt.UseUtcTimestamp = true);
 builder.Logging.AddFilter(static level => level >= LogLevel.Warning);
