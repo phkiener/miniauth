@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/Additional Items/">
+    <File Path=".dockerignore" />
     <File Path=".editorconfig" />
     <File Path=".gitattributes" />
     <File Path=".gitignore" />
@@ -10,13 +11,16 @@
     <File Path="LICENSE.txt" />
     <File Path="NuGet.config" />
   </Folder>
+  <Folder Name="/Additional Items/build/">
+    <File Path="build/Dockerfile" />
+  </Folder>
   <Folder Name="/PAM/">
     <Project Path="src/libc/libc.csproj" />
     <Project Path="src/libpam/libpam.csproj" />
-    <Project Path="src\MiniAuth.PAM.Proto\MiniAuth.PAM.Proto.csproj" />
-    <Project Path="src\MiniAuth.PAM\MiniAuth.PAM.csproj" />
+    <Project Path="src/MiniAuth.PAM.Proto/MiniAuth.PAM.Proto.csproj" />
+    <Project Path="src/MiniAuth.PAM/MiniAuth.PAM.csproj" />
   </Folder>
   <Folder Name="/Server/">
-    <Project Path="src\MiniAuth.Host\MiniAuth.Host.csproj" />
+    <Project Path="src/MiniAuth.Host/MiniAuth.Host.csproj" />
   </Folder>
 </Solution>
