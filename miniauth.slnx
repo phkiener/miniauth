@@ -17,6 +17,6 @@
     <Project Path="src\MiniAuth.PAM\MiniAuth.PAM.csproj" />
   </Folder>
   <Folder Name="/Server/">
-    <Project Path="src\Miniauth.Server\Miniauth.Server.csproj" />
+    <Project Path="src\MiniAuth.Host\MiniAuth.Host.csproj" />
   </Folder>
 </Solution>

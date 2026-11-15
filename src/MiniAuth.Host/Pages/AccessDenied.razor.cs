@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace Miniauth.Server.Pages;
+namespace MiniAuth.Host.Pages;
 
 public sealed partial class AccessDenied : ComponentBase
 {

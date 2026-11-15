@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Miniauth.Server.Authentication.PAM;
+namespace MiniAuth.Host.Authentication.PAM;
 
 public sealed class PAMOptions
 {

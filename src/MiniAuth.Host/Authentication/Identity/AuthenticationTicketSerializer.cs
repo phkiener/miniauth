@@ -2,7 +2,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication;
 
-namespace Miniauth.Server.Authentication.Identity;
+namespace MiniAuth.Host.Authentication.Identity;
 
 public sealed class AuthenticationTicketSerializer : IDataSerializer<AuthenticationTicket>
 {

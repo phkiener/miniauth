@@ -1,4 +1,4 @@
-namespace Miniauth.Server.Authentication.PAM;
+namespace MiniAuth.Host.Authentication.PAM;
 
 public static class ServiceProviderConfiguration
 {

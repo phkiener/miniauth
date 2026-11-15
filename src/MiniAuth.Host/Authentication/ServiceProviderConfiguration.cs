@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authentication;
-using Miniauth.Server.Authentication.Identity;
-using Miniauth.Server.Authentication.Local;
-using Miniauth.Server.Authentication.PAM;
+using MiniAuth.Host.Authentication.Identity;
+using MiniAuth.Host.Authentication.Local;
+using MiniAuth.Host.Authentication.PAM;
 
-namespace Miniauth.Server.Authentication;
+namespace MiniAuth.Host.Authentication;
 
 public static class ServiceProviderConfiguration
 {

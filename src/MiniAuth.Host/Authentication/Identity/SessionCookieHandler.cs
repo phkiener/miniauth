@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 
-namespace Miniauth.Server.Authentication.Identity;
+namespace MiniAuth.Host.Authentication.Identity;
 
 public sealed class SessionCookieHandler(IOptions<IdentityOptions> options, IDataProtectionProvider dataProtectionProvider) : IAuthenticationSignInHandler
 {

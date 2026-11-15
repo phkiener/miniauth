@@ -2,7 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Miniauth.Server.Handlers;
+namespace MiniAuth.Host.Handlers;
 
 public static class Challenge
 {

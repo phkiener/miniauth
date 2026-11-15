@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Miniauth.Server.Authentication;
+namespace MiniAuth.Host.Authentication;
 
 public sealed class IdentityOptions
 {

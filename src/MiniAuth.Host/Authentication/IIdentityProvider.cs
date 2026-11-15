@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace Miniauth.Server.Authentication;
+namespace MiniAuth.Host.Authentication;
 
 public interface IIdentityProvider
 {

@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Options;
-using Miniauth.Server.Authentication;
+using MiniAuth.Host.Authentication;
 
-namespace Miniauth.Server.Pages;
+namespace MiniAuth.Host.Pages;
 
 public sealed partial class Login(
     IIdentityProvider authenticationProvider,

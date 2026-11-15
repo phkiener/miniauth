@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace Miniauth.Server.Authentication.Local;
+namespace MiniAuth.Host.Authentication.Local;
 
 public sealed class LocalIdentityProvider : IIdentityProvider
 {

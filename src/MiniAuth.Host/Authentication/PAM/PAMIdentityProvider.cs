@@ -3,7 +3,7 @@ using System.Security.Claims;
 using Microsoft.Extensions.Options;
 using MiniAuth.PAM.Proto;
 
-namespace Miniauth.Server.Authentication.PAM;
+namespace MiniAuth.Host.Authentication.PAM;
 
 public sealed class PAMIdentityProvider(IOptions<PAMOptions> options, ILogger<PAMIdentityProvider> logger) : IIdentityProvider
 {

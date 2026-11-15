@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
-namespace Miniauth.Server.Pages;
+namespace MiniAuth.Host.Pages;
 
 public sealed partial class Index(NavigationManager navigationManager, ILogger<Index> logger) : ComponentBase
 {
