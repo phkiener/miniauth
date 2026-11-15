@@ -1,0 +1,4 @@
+[Native.cs]
+# CS8981: The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
+# We disable this so that the interop calls can replicate the native structures 1:1
+dotnet_diagnostic.CS8981.severity = none

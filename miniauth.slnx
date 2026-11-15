@@ -14,9 +14,12 @@
     <Project Path="src/Miniauth.Check/Miniauth.Check.csproj" />
     <Project Path="test/Miniauth.Check.Test/Miniauth.Check.Test.csproj" />
   </Folder>
+  <Folder Name="/Native/">
+    <Project Path="src/libc/libc.csproj" />
+    <Project Path="src/libpam/libpam.csproj" />
+  </Folder>
   <Folder Name="/Server/">
     <Project Path="src\Miniauth.Server\Miniauth.Server.csproj" />
   </Folder>
-  <Project Path="src/libpam/libpam.csproj" />
   <Project Path="src/Miniauth.PamProxy/Miniauth.PamProxy.csproj" />
 </Solution>

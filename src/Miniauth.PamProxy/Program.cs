@@ -1,4 +1,5 @@
-﻿using LibPAM;
+﻿using LibC;
+using LibPAM;
 using LibPAM.Types;
 
 if (args is not [var service, var username])
@@ -12,8 +13,11 @@ try
     conversation.User = username;
     var access = conversation.Authenticate();
     access &= conversation.ValidateAccount();
-
     Console.WriteLine($"Has access: {access}");
+
+    var groups = Groups.EnumerateGroups(username).ToList();
+    Console.WriteLine($"Groups are: {string.Join(", ", groups)}");
+
     return 0;
 }
 catch (Exception e)
