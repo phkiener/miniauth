@@ -7,30 +7,20 @@ public sealed class Authenticator(string service)
 {
     public bool HasAccess(string username, string password)
     {
-        using var conversation = new Transaction(service, SendPassword);
+        using var conversation = new Transaction(service, (messages, ref strings) => SendPassword(password, messages, ref strings));
         conversation.User = username;
-        // conversation.Password = password;
 
         return conversation.Authenticate();
     }
 
-    private static Status SendPassword(Message[] messages, ref string[] responses)
+    private static Status SendPassword(string password, Message[] messages, ref string[] responses)
     {
-        for (var i = 0; i < messages.Length; i++)
+        if (messages.Length != 1)
         {
-            Console.Write(messages[i].Value);
-            if (messages[i].Style is MessageStyle.Prompt or MessageStyle.PromptWithoutEcho)
-            {
-                Console.Write(" ");
-                responses[i] = Console.ReadLine() ?? "";
-            }
-            else
-            {
-                Console.Write("\n");
-                responses[i] = string.Empty;
-            }
+            return Status.ConversationError;
         }
 
+        responses[0] = password;
         return Status.Success;
     }
 }
