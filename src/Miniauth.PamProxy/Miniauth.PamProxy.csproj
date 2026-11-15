@@ -8,9 +8,13 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="$(Configuration) == 'Release'">
+    <AssemblyName>miniauth-pam</AssemblyName>
     <PublishAot>true</PublishAot>
-    <PublishSingleFile>true</PublishSingleFile>
-    <DebugType>none</DebugType>
+    
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <DebuggerSupport>false</DebuggerSupport>
+    <EventSourceSupport>false</EventSourceSupport>
+    <MetricsSupport>false</MetricsSupport>
   </PropertyGroup>
 
   <ItemGroup>
