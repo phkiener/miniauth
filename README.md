@@ -39,3 +39,5 @@ following environment variables:
 
 The user will receive a session cookie containing the username plus all groups
 that the user is a member of. It's not the prettiest, but it works.
+
+For my own full setup, see the [docs](docs/example.md)
