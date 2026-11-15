@@ -22,28 +22,31 @@ async Task HandleClient(Socket client, CancellationToken cancellationToken)
 {
     try
     {
-        var buffer = new byte[2048];
         Console.WriteLine("Connection accepted.");
-
-        var bytesRead = await client.ReceiveAsync(buffer, cancellationToken);
-        var command = Encoding.UTF8.GetString(buffer[..bytesRead]);
-
-        Console.WriteLine("Command received.");
-        if (command.Split(':', StringSplitOptions.TrimEntries) is ["AUTH", var username, var password])
+        while (client.Connected)
         {
-            Console.WriteLine("Command verified.");
-            var isAuthenticated = authenticator.HasAccess(username, password);
-            var groups = isAuthenticated ? Groups.EnumerateGroups(username).ToArray() : [];
+            var buffer = new byte[2048];
 
-            var response = isAuthenticated ? $"AUTH:{string.Join(",", groups)}" : "FAIL";
-            await client.SendAsync(Encoding.UTF8.GetBytes(response), cancellationToken);
+            var bytesRead = await client.ReceiveAsync(buffer, cancellationToken);
+            var command = Encoding.UTF8.GetString(buffer[..bytesRead]);
 
-            Console.WriteLine("Response sent.");
-        }
-        else
-        {
-            Console.WriteLine("Command invalid.");
-            await client.SendAsync("ERROR"u8.ToArray(), cancellationToken);
+            Console.WriteLine("Command received.");
+            if (command.Split(':', StringSplitOptions.TrimEntries) is ["AUTH", var username, var password])
+            {
+                Console.WriteLine("Command verified.");
+                var isAuthenticated = authenticator.HasAccess(username, password);
+                var groups = isAuthenticated ? Groups.EnumerateGroups(username).ToArray() : [];
+
+                var response = isAuthenticated ? $"AUTH:{string.Join(",", groups)}" : "FAIL";
+                await client.SendAsync(Encoding.UTF8.GetBytes(response), cancellationToken);
+
+                Console.WriteLine("Response sent.");
+            }
+            else
+            {
+                Console.WriteLine("Command invalid.");
+                await client.SendAsync("ERROR"u8.ToArray(), cancellationToken);
+            }
         }
 
         client.Close();
