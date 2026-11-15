@@ -11,8 +11,11 @@
     <File Path="LICENSE.txt" />
     <File Path="NuGet.config" />
   </Folder>
-  <Folder Name="/Additional Items/build/">
+  <Folder Name="/Additional Items/Build/">
     <File Path="build/Dockerfile" />
+  </Folder>
+  <Folder Name="/Additional Items/Workflows/">
+    <File Path=".github/workflows/publish.yaml" />
   </Folder>
   <Folder Name="/PAM/">
     <Project Path="src/libc/libc.csproj" />
