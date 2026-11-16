@@ -15,7 +15,6 @@ builder.Logging.AddFilter("MiniAuth", static level => level >= LogLevel.Informat
 var app = builder.Build();
 app.MapStaticAssets();
 app.UseRouting();
-app.UseAntiforgery();
 app.UseAuthentication();
 
 app.MapGet("/challenge", Challenge.Handle);

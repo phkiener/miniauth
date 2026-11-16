@@ -13,9 +13,15 @@
             <InputText @bind-Value="@Password" DisplayName="Password" placeholder="hunter2" type="password" autocomplete="off" />
         </label>
 
-        @if (errorMessage is not null)
+        @switch (errorType)
         {
-            <p class="error">@errorMessage</p>
+            case ErrorType.CredentialError:
+                <p class="error">Username or password is incorrect</p>
+                break;
+
+            case ErrorType.IdentityProviderFailed:
+                <p class="error">Credentials cannot be checked at the moment. Try again later or contact your administrator.</p>
+                break;
         }
 
         <button type="submit">Login</button>

@@ -13,6 +13,8 @@ public sealed partial class Login(
     IOptions<IdentityOptions> options,
     ILogger<Login> logger) : ComponentBase
 {
+    private enum ErrorType { CredentialError, IdentityProviderFailed }
+
     [SupplyParameterFromQuery(Name = "method")]
     public string? Method { get; set; }
 
@@ -35,17 +37,27 @@ public sealed partial class Login(
     public required HttpContext HttpContext { get; set; }
 
     [CascadingParameter]
+    public required ITempData TempData { get; set; }
+
+    [CascadingParameter]
     public required Task<AuthenticationState> AuthenticationStateTask { get; set; }
 
     private EditContext editContext = null!;
     private ValidationMessageStore validationMessageStore = null!;
 
-    private string? errorMessage;
+    private ErrorType? errorType;
 
     protected override void OnInitialized()
     {
         editContext = new EditContext(this);
         validationMessageStore = new ValidationMessageStore(editContext);
+
+        errorType = TempData.Get(nameof(errorType)) as ErrorType?;
+        if (errorType is ErrorType.CredentialError)
+        {
+            validationMessageStore.Add(() => Username!, string.Empty);
+            validationMessageStore.Add(() => Password!, string.Empty);
+        }
     }
 
     protected override async Task OnInitializedAsync()
@@ -60,7 +72,7 @@ public sealed partial class Login(
 
     private async Task LoginAsync()
     {
-        errorMessage = null;
+        errorType = null;
         validationMessageStore.Clear();
 
         try
@@ -68,15 +80,15 @@ public sealed partial class Login(
             var principal = await authenticationProvider.LoginAsync(username: Username ?? "", password: Password ?? "");
             if (principal is null)
             {
-                errorMessage = "Invalid username or password";
-                validationMessageStore.Add(() => Username!, string.Empty);
-                validationMessageStore.Add(() => Password!, string.Empty);
+                TempData[nameof(errorType)] = ErrorType.CredentialError;
+                navigationManager.Refresh();
 
                 return;
             }
 
             await HttpContext.SignInAsync(principal);
             logger.LogInformation("Logged in user {Username} from {IP}", Username, HttpContext.Connection.RemoteIpAddress);
+            TempData[nameof(errorType)] = null;
 
             navigationManager.NavigateTo(GetRedirectTarget());
         }
@@ -84,7 +96,8 @@ public sealed partial class Login(
         {
             logger.LogError(e, "Failed to authenticate user");
 
-            errorMessage = "Credentials cannot be checked; try again later";
+            TempData[nameof(errorType)] = ErrorType.IdentityProviderFailed;
+            navigationManager.Refresh();
         }
     }
 
