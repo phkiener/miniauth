@@ -3,6 +3,7 @@
 @import "base/colors.css" layer(base);
 @import "base/shadows.css" layer(base);
 @import "base/baseline.css" layer(base);
+@import "base/typography.css" layer(base);
 @import "base/layout.css" layer(base);
 
 @import "components/button.css" layer(components);
