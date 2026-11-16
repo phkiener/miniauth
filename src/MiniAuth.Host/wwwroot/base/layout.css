@@ -41,4 +41,12 @@ body > main {
     }
 
     transition: min-width 0.15s ease-in-out, max-width 0.15s ease-in-out, padding 0.15s ease-in-out;
+
+    &.full {
+        width: 100%;
+        max-width: unset;
+
+        margin: 0;
+        padding: 0;
+    }
 }

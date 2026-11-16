@@ -13,11 +13,12 @@ dl {
     place-items: end stretch;
 
     & > dt {
-        margin: 0;
-        padding-inline-end: 0.5rem;
-
         grid-column: 1 / span 1;
-        text-align: left;
+
+        max-inline-size: 40ch;
+        margin: 0;
+        border-bottom: 0.0625rem solid light-dark(var(--color-zinc-600), var(--color-zinc-400));
+        padding-inline-end: 1rem;
 
         color: light-dark(var(--color-zinc-700), var(--color-zinc-300));
         background: none;
@@ -25,20 +26,19 @@ dl {
         font-size: 0.9rem;
         line-height: 1.4;
         font-weight: 300;
-
-        border-bottom: 0.0625rem solid light-dark(var(--color-zinc-600), var(--color-zinc-400));
+        text-align: left;
     }
 
     & > dd {
-        margin: 0;
-        padding-inline-start: 0.5rem;
-
         grid-column: 2 / span 1;
-        text-align: right;
+
+        margin: 0;
+        border-bottom: 0.0625rem solid light-dark(var(--color-zinc-600), var(--color-zinc-400));
+        padding-inline-start: 1rem;
 
         color: light-dark(var(--color-zinc-900), var(--color-zinc-100));
         background: none;
 
-        border-bottom: 0.0625rem solid light-dark(var(--color-zinc-600), var(--color-zinc-400));
+        text-align: right;
     }
 }
