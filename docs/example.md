@@ -45,10 +45,7 @@ The web UI is started as quadlet (systemd service using podman) from a dedicated
 
 1. Make sure the user has systemd setup and is part of `pam-proxy`
 2. Create `miniauth.container` in `.config/containers/systemd`
-   * Make sure the running container inherts access to `/etc/miniauth/pam.socket`...
-   * Set `UserNS` to `keep-id`
-   * Set `GroupAdd` to `keep-groups`
-   * Set `PodmanArgs` to `--annotation=run.oci.keep_original_groups=1`
+   * Set `PodmanArgs` to `--annotation=run.oci.keep_original_groups=1` to make sure the group-based access to the socket works
    * Set `MINIAUTH_DOMAIN` to your local domain (e.g. `my-domain.com`)
    * Set `MINIAUTH_LOGINHOST` to the public URL that can be used to reach the web UI (e.g. `https://auth.my-domain.com`)
 3. `systemctl enable miniauth.service` and the UI should be up and running!
@@ -66,8 +63,6 @@ SecurityLabelDisable=true # SELinux is a pain with containers and shared files
 DNS=9.9.9.9
 PublishPort=15151:5000
 
-UserNS=keep-id
-GroupAdd=keep-groups
 PodmanArgs=--annotation=run.oci.keep_original_groups=1
 
 Volume=/etc/miniauth/:/etc/miniauth/
