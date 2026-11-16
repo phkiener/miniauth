@@ -2,13 +2,17 @@
 
 <main>
     <article class="card" style="margin-block: auto">
+        <header>
+            Enter your credentials
+        </header>
+
         <EditForm EditContext="@editContext" FormName="login" Enhance OnSubmit="@LoginAsync">
             <fieldset>
-                <label for="username"><DisplayName For="@(() => Username)" /></label>
-                <InputText id="username" @bind-Value="@Username" DisplayName="Username" placeholder="AzureDiamond" autofocus />
+                <label for="username"><DisplayName For="@(() => Username)"/></label>
+                <InputText id="username" @bind-Value="@Username" DisplayName="Username" placeholder="AzureDiamond" autofocus/>
 
-                <label for="password"><DisplayName For="@(() => Password)" /></label>
-                <InputText id="password" @bind-Value="@Password" DisplayName="Password" placeholder="hunter2" type="password" autocomplete="off" />
+                <label for="password"><DisplayName For="@(() => Password)"/></label>
+                <InputText id="password" @bind-Value="@Password" DisplayName="Password" placeholder="hunter2" type="password" autocomplete="off"/>
 
                 @switch (errorType)
                 {

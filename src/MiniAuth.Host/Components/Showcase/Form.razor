@@ -1,0 +1,133 @@
+@page "/showcase/form"
+@layout ShowcaseLayout
+
+<section>
+    <header>Bare components</header>
+
+    <section>
+        <header>Label</header>
+        <label>A label</label>
+    </section>
+
+    <section>
+        <header>Text input</header>
+        <input type="text" value="text">
+        <input type="text" value="text" disabled>
+        <input type="text" value="text" readonly>
+    </section>
+
+    <section>
+        <header>Password input</header>
+        <input type="password" value="password">
+        <input type="password" value="password" disabled>
+        <input type="password" value="password" readonly>
+    </section>
+
+    <section>
+        <header>Number input</header>
+        <input type="number" value="1234.5">
+        <input type="number" value="1234.5" disabled>
+        <input type="number" value="1234.5" readonly>
+    </section>
+
+    <section>
+        <header>Date input</header>
+        <input type="date" value="2026-02-14">
+        <input type="date" value="2026-02-14" disabled>
+        <input type="date" value="2026-02-14" readonly>
+    </section>
+
+    <section>
+        <header>Datetime input</header>
+        <input type="datetime-local" value="2026-02-14 12:30">
+        <input type="datetime-local" value="2026-02-14 12:30" disabled>
+        <input type="datetime-local" value="2026-02-14 12:30" readonly>
+    </section>
+
+    <section>
+        <header>File input</header>
+        <input type="file">
+        <input type="file" disabled>
+        <input type="file" readonly>
+    </section>
+
+    <section>
+        <header>Radio</header>
+        <input type="radio" checked>
+        <input type="radio">
+        <input type="radio" disabled>
+    </section>
+
+    <section>
+        <header>Checkbox</header>
+        <input type="checkbox" checked>
+        <input type="checkbox">
+        <input type="checkbox" disabled>
+    </section>
+
+    <section>
+        <header>Range slider</header>
+        <input type="range" value="50">
+        <input type="range" value="50" disabled>
+    </section>
+
+    <section>
+        <header>Select</header>
+        <select>
+            <option selected>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <select disabled>
+            <option selected>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+    </section>
+
+    <section>
+        <header>Select (multiple)</header>
+        <select multiple>
+            <option selected>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <select multiple disabled>
+            <option selected>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+    </section>
+
+    <section>
+        <header>Textarea</header>
+        <textarea>text</textarea>
+        <textarea disabled>text</textarea>
+        <textarea readonly>text</textarea>
+    </section>
+</section>
+
+<section>
+    <header>Fieldset</header>
+
+    <fieldset>
+        <label for="first">First input</label>
+        <input type="text" id="first" name="first">
+
+        <label for="second">Second input</label>
+        <select id="second">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+
+        <label for="third">Third input</label>
+        <textarea id="third"></textarea>
+
+        <label>
+            <input type="checkbox"> Fourth input
+        </label>
+
+        <button type="submit">Submit</button>
+    </fieldset>
+</section>

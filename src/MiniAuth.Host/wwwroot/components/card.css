@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
-    gap: 0.5rem;
+    gap: 1rem;
 
     margin: 0;
     border: 0.125rem solid light-dark(var(--color-zinc-800), var(--color-zinc-200));

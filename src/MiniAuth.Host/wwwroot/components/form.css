@@ -1,0 +1,37 @@
+fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 1.5rem;
+
+    & > label + :is(input, textarea, select) {
+        margin-block-start: -1.25rem;
+    }
+
+    & > button[type="submit"] {
+        margin-top: 0.5rem;
+    }
+}
+
+label {
+    font-size: 0.8rem;
+    line-height: 1.2;
+}
+
+input, textarea, select {
+    margin: 0;
+    padding: 0.25rem 0.25rem;
+
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.4;
+    text-decoration: none;
+
+    outline: none;
+}
