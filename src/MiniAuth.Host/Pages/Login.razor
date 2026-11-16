@@ -3,15 +3,12 @@
 @layout CenteredCardLayout
 
 <EditForm EditContext="@editContext" FormName="login" Enhance OnSubmit="@LoginAsync">
-    <section class="login-form">
-        <label>
-            <span>Username</span>
-            <InputText @bind-Value="@Username" DisplayName="Username" placeholder="AzureDiamond" autofocus />
-        </label>
-        <label>
-            <span>Password</span>
-            <InputText @bind-Value="@Password" DisplayName="Password" placeholder="hunter2" type="password" autocomplete="off" />
-        </label>
+    <fieldset>
+        <label for="username"><DisplayName For="@(() => Username)" /></label>
+        <InputText id="username" @bind-Value="@Username" DisplayName="Username" placeholder="AzureDiamond" autofocus />
+
+        <label for="password"><DisplayName For="@(() => Password)" /></label>
+        <InputText id="password" @bind-Value="@Username" DisplayName="Password" placeholder="hunter2" type="password" autocomplete="off" />
 
         @switch (errorType)
         {
@@ -25,5 +22,5 @@
         }
 
         <button type="submit">Login</button>
-    </section>
+    </fieldset>
 </EditForm>

@@ -1,0 +1,47 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="brand" gradientTransform="rotate(90)">
+      <stop offset="0%" stop-color="#A78BFA" />
+      <stop offset="80%" stop-color="#6D28D9" />
+    </linearGradient>
+
+    <linearGradient id="brand-solid">
+      <stop offset="0%" stop-color="#6D28D9" />
+    </linearGradient>
+
+    <linearGradient id="accent">
+      <stop offset="0%" stop-color="#EFEFFF" />
+    </linearGradient>
+  </defs>
+
+  <g id="background">
+    <rect width="100" height="100" rx="20" fill="url(#brand)" />
+  </g>
+
+  <g id="hexagon">
+    <path stroke="url(#accent)" stroke-width="6" stroke-linejoin="round"
+          d="M50 08
+             L88 30
+             L88 70
+             L50 92
+             L12 70
+             L12 30
+             Z" />
+  </g>
+
+  <g id="shield">
+    <path fill="url(#accent)"
+          d="M50 22
+             L26 36
+             L26 52
+             Q26 68 50 76
+             Q74 68 74 52
+             L74 36
+             Z" />
+
+    <g id="keyhole">
+      <circle cx="50" cy="44" r="6" fill="url(#brand-solid)" />
+      <rect x="48" y="44" width="4" height="16" rx="2" fill="url(#brand-solid)" />
+    </g>
+  </g>
+</svg>

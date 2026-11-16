@@ -1,0 +1,24 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+:target {
+    scroll-margin: 3rlh;
+}
+
+html {
+    color-scheme: dark light;
+
+    font-family: system-ui, sans-serif;
+    font-size: 1rem;
+    line-height: 1.4;
+
+    color: light-dark(var(--color-zinc-950), var(--color-zinc-50));
+    background-color: light-dark(var(--color-zinc-300), var(--color-zinc-700));
+
+    word-break: break-word;
+}
+
+body {
+    margin: 0;
+}

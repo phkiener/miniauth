@@ -1,0 +1,59 @@
+button, [role="button"], input:is([type="button"], [type="submit"], [type="reset"]) {
+    display: inline-flex;
+    flex-direction: row;
+
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+
+    margin-inline: 0.25rem;
+    margin-block: 0;
+
+    border: none;
+    border-radius: 0.25rem;
+
+    padding-inline: 1rem;
+    padding-block: .5rem;
+
+    color: var(--button-foreground);
+    background-color: var(--button-background);
+
+    cursor: pointer;
+    text-decoration: none;
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    &:focus-visible {
+        outline: .125rem solid var(--button-background);
+        outline-offset: .25rem;
+    }
+}
+
+input[role="submit"], :is(button, [role="button"], input[role="button"]).primary {
+    --button-foreground: light-dark(var(--color-zinc-50), var(--color-zinc-950));
+    --button-background: light-dark(var(--color-zinc-950), var(--color-zinc-50));
+
+    &:hover {
+        --button-background: light-dark(var(--color-zinc-700), var(--color-zinc-300));
+    }
+
+    &:active {
+        --button-background: light-dark(var(--color-zinc-900), var(--color-zinc-100));
+    }
+}
+
+:is(button, [role="button"], input[role="button"], input[role="reset"]) {
+    --button-foreground: light-dark(var(--color-zinc-950), var(--color-zinc-50));
+    --button-background: light-dark(var(--color-zinc-400), var(--color-zinc-500));
+
+    &:hover {
+        --button-background: light-dark(var(--color-zinc-500), var(--color-zinc-400));
+    }
+
+    &:active {
+        --button-background: light-dark(var(--color-zinc-500), var(--color-zinc-400));
+    }
+}
