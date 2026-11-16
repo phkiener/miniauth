@@ -5,3 +5,4 @@
 @import "base/baseline.css" layer(base);
 
 @import "components/button.css" layer(components);
+@import "components/link.css" layer(components);

@@ -1,0 +1,27 @@
+a, [role="link"] {
+    display: inline;
+
+    margin: 0;
+    border: none;
+    padding: 0;
+
+    color: var(--link-color, inherit);
+    background-color: transparent;
+
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 0.125rem;
+
+    cursor: pointer;
+
+    &:hover {
+        --link-color: light-dark(color-mix(in srgb, currentColor, #FFFFFF 10%), color-mix(in srgb, currentColor, #000000 10%));
+    }
+
+    &:active {
+        --link-color: light-dark(color-mix(in srgb, currentColor, #FFFFFF 25%), color-mix(in srgb, currentColor, #000000 25%));
+    }
+}

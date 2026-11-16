@@ -22,11 +22,12 @@ input:is([type="button"], [type="submit"], [type="reset"]) {
 
     font-family: inherit;
     font-size: .8rem;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1.4;
     text-decoration: none;
 
     cursor: pointer;
+    user-select: none;
 
     &:disabled {
         opacity: 0.6;
@@ -40,7 +41,7 @@ input:is([type="button"], [type="submit"], [type="reset"]) {
 }
 
 .primary,
-:not(.secondary):where(
+:not(.secondary):is(
     button[type="submit"],
     input[type="submit"]) {
     --button-foreground: light-dark(var(--color-zinc-50), var(--color-zinc-950));
@@ -58,7 +59,7 @@ input:is([type="button"], [type="submit"], [type="reset"]) {
 }
 
 .secondary,
-:not(.primary):where(
+:not(.primary):is(
     button:not([type="submit"]),
     [role="button"],
     input:is([type="button"], [type="reset"])) {
