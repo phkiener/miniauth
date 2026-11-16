@@ -8,7 +8,7 @@
         <InputText id="username" @bind-Value="@Username" DisplayName="Username" placeholder="AzureDiamond" autofocus />
 
         <label for="password"><DisplayName For="@(() => Password)" /></label>
-        <InputText id="password" @bind-Value="@Username" DisplayName="Password" placeholder="hunter2" type="password" autocomplete="off" />
+        <InputText id="password" @bind-Value="@Password" DisplayName="Password" placeholder="hunter2" type="password" autocomplete="off" />
 
         @switch (errorType)
         {

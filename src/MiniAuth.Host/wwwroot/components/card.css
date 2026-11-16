@@ -1,0 +1,42 @@
+.card, dialog:open {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 0.5rem;
+
+    margin: 0;
+    border: 0.125rem solid light-dark(var(--color-zinc-800), var(--color-zinc-200));
+    border-radius: 0.25rem;
+
+    padding-inline: 1rem;
+    padding-block: 0.75rem;
+
+    color: light-dark(var(--color-zinc-800), var(--color-zinc-200));
+    background-color: light-dark(var(--color-zinc-200), var(--color-zinc-800));
+    box-shadow: var(--shadow-md);
+
+    & > header {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 0.25rem;
+
+        font-size: 1.25rem;
+        font-weight: 500;
+        line-height: 1.1;
+    }
+
+    & > footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 0.25rem;
+
+        & > :only-child {
+            width: 100%;
+        }
+    }
+}

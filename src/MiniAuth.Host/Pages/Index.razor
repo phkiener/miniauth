@@ -1,23 +1,46 @@
 @page "/"
-@using MiniAuth.Host.Components
-@layout CenteredCardLayout
 @attribute [RequireAntiforgeryToken(required: false)]
 
-@if (username is null)
-{
-    <p>You are not logged in.</p>
+<main>
+    <article class="card" style="margin-block: auto">
+        @if (username is null)
+        {
+            <p>You are not logged in.</p>
 
-    <a href="/login" role="button" class="primary" tabindex="0">Log in</a>
-    <a href="/login" role="button" tabindex="0">Log in</a>
-}
-else
-{
-    <p>
-        You are logged in as @username.<br/>
-        Your groups are: @(string.Join(", ", groups))
-    </p>
+            <footer>
+                <a href="/login" role="button" class="primary" tabindex="0">Log in</a>
+            </footer>
 
-    <EditForm Model="@this" FormName="logout" OnSubmit="@LogoutAsync">
-        <button type="submit">Log out</button>
-    </EditForm>
-}
+        }
+        else
+        {
+            <EditForm Model="@this" FormName="logout" OnSubmit="@LogoutAsync" id="logout" hidden />
+
+            <header>
+                Hello, @username
+            </header>
+
+            <dl>
+                <dt>Username</dt>
+                <dd>@username</dd>
+
+                <dt>Groups</dt>
+                <dd>
+                    @foreach (var group in groups)
+                    {
+                        @group <br/>
+                    }
+                </dd>
+            </dl>
+
+            <p>
+                Groups are synchronized from the system groups. To refresh, log in again.
+                All account modifications need to be done by the administrator.
+            </p>
+
+            <footer>
+                <button type="submit" form="logout">Log out</button>
+            </footer>
+        }
+    </article>
+</main>

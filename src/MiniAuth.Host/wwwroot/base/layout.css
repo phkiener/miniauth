@@ -1,0 +1,44 @@
+body {
+    height: 100dvh;
+    width: 100dvw;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+
+body > main {
+    height: 100%;
+
+    min-width: 20rem;
+    max-width: 80dvw;
+
+    margin-inline: auto;
+    margin-block: 0;
+
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+
+    @media (width > 40rem) {
+        min-width: 24rem;
+        max-width: 32rem;
+        padding: 2rem;
+    }
+
+    @media (width > 80rem) {
+        min-width: 32rem;
+        max-width: 64rem;
+    }
+
+    @media (width > 120rem) {
+        min-width: 40rem;
+        max-width: 80rem;
+    }
+
+    transition: min-width 0.15s ease-in-out, max-width 0.15s ease-in-out, padding 0.15s ease-in-out;
+}

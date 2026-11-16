@@ -1,0 +1,44 @@
+dl {
+    margin-inline: 0;
+    margin-block: 1rem;
+
+    padding: 0;
+
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    grid-template-rows: auto;
+    grid-auto-flow: row;
+    grid-auto-rows: auto;
+    grid-row-gap: 0.5rem;
+    place-items: end stretch;
+
+    & > dt {
+        margin: 0;
+        padding-inline-end: 0.5rem;
+
+        grid-column: 1 / span 1;
+        text-align: left;
+
+        color: light-dark(var(--color-zinc-700), var(--color-zinc-300));
+        background: none;
+
+        font-size: 0.9rem;
+        line-height: 1.4;
+        font-weight: 300;
+
+        border-bottom: 0.0625rem solid light-dark(var(--color-zinc-600), var(--color-zinc-400));
+    }
+
+    & > dd {
+        margin: 0;
+        padding-inline-start: 0.5rem;
+
+        grid-column: 2 / span 1;
+        text-align: right;
+
+        color: light-dark(var(--color-zinc-900), var(--color-zinc-100));
+        background: none;
+
+        border-bottom: 0.0625rem solid light-dark(var(--color-zinc-600), var(--color-zinc-400));
+    }
+}
