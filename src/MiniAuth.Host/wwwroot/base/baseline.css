@@ -19,6 +19,6 @@ html, .app {
     word-break: break-word;
 }
 
-body {
+body, p {
     margin: 0;
 }
