@@ -6,7 +6,7 @@
     scroll-margin: 3rlh;
 }
 
-html {
+html, .app {
     color-scheme: dark light;
 
     font-family: system-ui, sans-serif;

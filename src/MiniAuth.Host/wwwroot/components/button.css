@@ -1,7 +1,8 @@
-button, [role="button"], input:is([type="button"], [type="submit"], [type="reset"]) {
+button,
+[role="button"],
+input:is([type="button"], [type="submit"], [type="reset"]) {
     display: inline-flex;
     flex-direction: row;
-
     align-items: center;
     justify-content: center;
     gap: 0.25rem;
@@ -17,9 +18,15 @@ button, [role="button"], input:is([type="button"], [type="submit"], [type="reset
 
     color: var(--button-foreground);
     background-color: var(--button-background);
+    box-shadow: var(--button-shadow);
+
+    font-family: inherit;
+    font-size: .8rem;
+    font-weight: 600;
+    line-height: 1.4;
+    text-decoration: none;
 
     cursor: pointer;
-    text-decoration: none;
 
     &:disabled {
         opacity: 0.6;
@@ -32,28 +39,39 @@ button, [role="button"], input:is([type="button"], [type="submit"], [type="reset
     }
 }
 
-input[role="submit"], :is(button, [role="button"], input[role="button"]).primary {
+.primary,
+:not(.secondary):where(
+    button[type="submit"],
+    input[type="submit"]) {
     --button-foreground: light-dark(var(--color-zinc-50), var(--color-zinc-950));
-    --button-background: light-dark(var(--color-zinc-950), var(--color-zinc-50));
+    --button-background: light-dark(var(--color-zinc-900), var(--color-zinc-100));
+    --button-shadow: var(--shadow-sm);
 
     &:hover {
         --button-background: light-dark(var(--color-zinc-700), var(--color-zinc-300));
     }
 
     &:active {
-        --button-background: light-dark(var(--color-zinc-900), var(--color-zinc-100));
+        --button-background: light-dark(var(--color-zinc-950), var(--color-zinc-50));
+        --button-shadow: var(--shadow-md);
     }
 }
 
-:is(button, [role="button"], input[role="button"], input[role="reset"]) {
+.secondary,
+:not(.primary):where(
+    button:not([type="submit"]),
+    [role="button"],
+    input:is([type="button"], [type="reset"])) {
     --button-foreground: light-dark(var(--color-zinc-950), var(--color-zinc-50));
-    --button-background: light-dark(var(--color-zinc-400), var(--color-zinc-500));
+    --button-background: light-dark(var(--color-zinc-400), var(--color-zinc-600));
+    --button-shadow: var(--shadow-sm);
 
     &:hover {
         --button-background: light-dark(var(--color-zinc-500), var(--color-zinc-400));
     }
 
     &:active {
-        --button-background: light-dark(var(--color-zinc-500), var(--color-zinc-400));
+        --button-background: light-dark(var(--color-zinc-400), var(--color-zinc-600));
+        --button-shadow: var(--shadow-md);
     }
 }

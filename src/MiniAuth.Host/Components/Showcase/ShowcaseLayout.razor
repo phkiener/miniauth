@@ -1,0 +1,72 @@
+@inherits LayoutComponentBase
+
+<style>
+    main {
+        height: 100dvh;
+        width: 100dvw;
+        overflow: hidden;
+
+        display: flex;
+        flex-direction: column;
+
+        & > article {
+            align-self: stretch;
+            flex: 0 0 50%;
+            overflow: auto;
+
+            padding: 1rem;
+
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 2rem;
+
+            & > header {
+                font-size: x-large;
+                font-weight: bold;
+            }
+        }
+    }
+
+    article > section {
+        align-self: stretch;
+
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 1rem;
+
+        & > header {
+            font-size: large;
+            font-weight: bold;
+        }
+
+        & > section {
+            align-self: stretch;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: .5rem;
+
+            & > header {
+                flex: 0 0 20ch;
+            }
+        }
+    }
+</style>
+
+<main style="display: flex; flex-direction: column;">
+    <article class="app" style="color-scheme: light">
+        <header>Light Theme</header>
+        @Body
+    </article>
+
+    <article class="app" style="color-scheme: dark">
+        <header>Dark Theme</header>
+        @Body
+    </article>
+</main>
