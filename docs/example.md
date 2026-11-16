@@ -19,7 +19,7 @@ The helper binary is run as systemd service for root.
 6. Create `miniauth-pam.service` in `/etc/systemd/system/`
    * Set `User` to `root` because only root can authenticate *other* users via PAM
    * Set `Group` to `pam-proxy` so that the created socket file will be owned by `root:pam-proxy`
-   * Set `UMask` to `0007` so that the create socket file will be group-writeable - which is needed to connect to the socket
+   * Set `UMask` to `0017` so that the create socket file will be group-writeable - which is needed to connect to the socket - but inaccessible to everyone else
 7. `systemctl enable miniauth-pam.service` and the socket should be up and running!
    * Try `nc -U /etc/miniauth/pam.socket` with a user that's part of `pam-proxy` to see that permissions are set correctly
 
@@ -33,7 +33,7 @@ Type=simple
 ExecStart=/usr/bin/miniauth-pam password-auth /etc/miniauth/pam.socket
 User=root
 Group=pam-proxy
-UMask=0007
+UMask=0017
 
 [Install]
 WantedBy=multi-user.target
