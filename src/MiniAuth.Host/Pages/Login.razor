@@ -1,26 +1,28 @@
 @page "/login"
-@using MiniAuth.Host.Components
-@layout CenteredCardLayout
 
-<EditForm EditContext="@editContext" FormName="login" Enhance OnSubmit="@LoginAsync">
-    <fieldset>
-        <label for="username"><DisplayName For="@(() => Username)" /></label>
-        <InputText id="username" @bind-Value="@Username" DisplayName="Username" placeholder="AzureDiamond" autofocus />
+<main>
+    <article class="card" style="margin-block: auto">
+        <EditForm EditContext="@editContext" FormName="login" Enhance OnSubmit="@LoginAsync">
+            <fieldset>
+                <label for="username"><DisplayName For="@(() => Username)" /></label>
+                <InputText id="username" @bind-Value="@Username" DisplayName="Username" placeholder="AzureDiamond" autofocus />
 
-        <label for="password"><DisplayName For="@(() => Password)" /></label>
-        <InputText id="password" @bind-Value="@Password" DisplayName="Password" placeholder="hunter2" type="password" autocomplete="off" />
+                <label for="password"><DisplayName For="@(() => Password)" /></label>
+                <InputText id="password" @bind-Value="@Password" DisplayName="Password" placeholder="hunter2" type="password" autocomplete="off" />
 
-        @switch (errorType)
-        {
-            case ErrorType.CredentialError:
-                <p class="error">Username or password is incorrect</p>
-                break;
+                @switch (errorType)
+                {
+                    case ErrorType.CredentialError:
+                        <p class="error">Username or password is incorrect</p>
+                        break;
 
-            case ErrorType.IdentityProviderFailed:
-                <p class="error">Credentials cannot be checked at the moment. Try again later or contact your administrator.</p>
-                break;
-        }
+                    case ErrorType.IdentityProviderFailed:
+                        <p class="error">Credentials cannot be checked at the moment. Try again later or contact your administrator.</p>
+                        break;
+                }
 
-        <button type="submit">Login</button>
-    </fieldset>
-</EditForm>
+                <button type="submit">Login</button>
+            </fieldset>
+        </EditForm>
+    </article>
+</main>
