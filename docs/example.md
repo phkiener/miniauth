@@ -85,7 +85,7 @@ WantedBy=default.target
 Caddy is running as systemd-service for root.
 
 1. Add a section to the Caddyfile to route to the running web UI
-   * Basically `reverse_proxy http://host.containers.internal:15151`
+   * Basically `reverse_proxy host.containers.internal:15151`
 2. For every service that you want to protect, add a `forward_auth` section
 3. `systemctl reload-or-restart caddy.service` and it's done
 
